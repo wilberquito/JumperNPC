@@ -10,6 +10,7 @@ public class NPC : Agent
     [SerializeField] float _movingRange = 5f;
     [SerializeField] float velocity = 4f;
     [SerializeField] bool trainningMode = false;
+    [SerializeField] float movementForce = 2f;
 
     [SerializeField] Transform currentTarget;
 
@@ -82,7 +83,10 @@ public class NPC : Agent
     // index 0: -1 means move to the left, +1 means move to the right
     public override void OnActionReceived(ActionBuffers actions)
     {
-    
+        Vector2 movement = new Vector2(actions.DiscreteActions[0], 0);
+
+        _rigidbody2D.AddForce(movement * movementForce);
+
     }
 
     // void Awake()
