@@ -79,8 +79,8 @@ public class NPC : Agent
     // index 0: -1 means move to the left, +1 means move to the right
     public override void OnActionReceived(ActionBuffers actions)
     {
-        Debug.Log("from on action received");
-        Debug.Log(actions.ContinuousActions[0]);
+        // Debug.Log("from on action received");
+        // Debug.Log(actions.ContinuousActions[0]);
         Vector2 movement = new Vector2(actions.ContinuousActions[0]*movementForce, 0);
         _rigidbody2D.velocity = movement;
     }
@@ -93,7 +93,7 @@ public class NPC : Agent
         if (!currentTarget) return;
 
         Vector2 toTarget = currentTarget.position - transform.position;
-        // 3 observations (horientation)
+        // 2 observations (horientation)
         sensor.AddObservation(toTarget.normalized);
         // 1 observation (distance)
         sensor.AddObservation(Vector2.Distance(currentTarget.position, transform.position));
