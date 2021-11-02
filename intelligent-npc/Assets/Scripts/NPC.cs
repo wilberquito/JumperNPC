@@ -10,10 +10,13 @@ public class NPC : Agent
     [SerializeField] float _movingRange = 5f;
     [SerializeField] bool trainningMode = false;
     [SerializeField] float movementForce = 2f;
-    [SerializeField] Transform currentTarget;
+    // how much ml agent wins every time it touches the current target
+    [SerializeField] float gainTouchBarTarget = 10f;
 
+    List<Transform> barsTarget;
+    Transform currentBarTarget;
     Rigidbody2D _rigidbody2D;
-    float gainObtein = 0f;
+    float gain = 0f;
 
     public float movingRange
     {
@@ -38,7 +41,7 @@ public class NPC : Agent
         // Debug.Log("Episode begin...");
 
         // reset gain obtein
-        gainObtein = 0;
+        gain = 0;
 
         // reseting movement inercy
         _rigidbody2D.velocity = Vector2.zero;
@@ -50,6 +53,8 @@ public class NPC : Agent
         FindMovingTarget();
     }
 
+    // this methods sets the start target
+    // and obtain those bars that works as movement limitations
     private void FindMovingTarget()
     {
         // Debug.Log("searching for moving target");
@@ -70,7 +75,8 @@ public class NPC : Agent
 
         // once found, pick one randomly
         // the array should be of length 2
-        this.currentTarget = targets[Random.Range(0, 2)];
+        this.currentBarTarget = targets[Random.Range(0, 2)];
+        this.barsTarget = targets;
     }
 
     // called when action is received from either {player, neural network}
@@ -81,7 +87,7 @@ public class NPC : Agent
     {
         // Debug.Log("from on action received");
         // Debug.Log(actions.ContinuousActions[0]);
-        Vector2 movement = new Vector2(actions.ContinuousActions[0]*movementForce, 0);
+        Vector2 movement = new Vector2(actions.ContinuousActions[0] * movementForce, 0);
         _rigidbody2D.velocity = movement;
     }
 
@@ -90,13 +96,13 @@ public class NPC : Agent
     public override void CollectObservations(VectorSensor sensor)
     {
 
-        if (!currentTarget) return;
+        if (!currentBarTarget) return;
 
-        Vector2 toTarget = currentTarget.position - transform.position;
+        Vector2 toTarget = currentBarTarget.position - transform.position;
         // 2 observations (horientation)
         sensor.AddObservation(toTarget.normalized);
         // 1 observation (distance)
-        sensor.AddObservation(Vector2.Distance(currentTarget.position, transform.position));
+        sensor.AddObservation(Vector2.Distance(currentBarTarget.position, transform.position));
     }
 
     public override void Heuristic(in ActionBuffers actionsOut)
@@ -128,10 +134,33 @@ public class NPC : Agent
     //     _rigidbody2D.velocity = new Vector2(force * velocity, 0);
     // }
 
-    // private void OnTriggerEnter2D(Collider2D other) {
-    //     Debug.Log("Max Max Max");
-    // }
+    // called when the agent collider enters 
+    // a trigger collider
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        // check if agent is colliding with range movement bars
+        // especific if its touching the current target
+        // Note: everything diff from current target should not count
+        if (other.transform == this.currentBarTarget)
+        {
+            // iff we are in training mode
+            if (trainningMode)
+            {
+                // add reward is method from MLAgents class
+                AddReward(gainTouchBarTarget);
+            }
 
+            // changing current target
+            foreach (Transform target in barsTarget)
+            {
+                if (target != currentBarTarget)
+                {
+                    currentBarTarget = target;
+                    break;
+                }
+            }
+        }
+    }
 
 
 }
