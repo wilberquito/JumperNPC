@@ -1,0 +1,38 @@
+{
+    "NPC": {
+        "checkpoints": [
+            {
+                "steps": 51455,
+                "file_path": "results\\ppo\\NPC\\NPC-51455.onnx",
+                "reward": null,
+                "creation_time": 1635903302.5626173,
+                "auxillary_file_paths": [
+                    "results\\ppo\\NPC\\NPC-51455.pt"
+                ]
+            },
+            {
+                "steps": 97503,
+                "file_path": "results\\ppo\\NPC\\NPC-97503.onnx",
+                "reward": 11629.255828857422,
+                "creation_time": 1635903545.5755637,
+                "auxillary_file_paths": [
+                    "results\\ppo\\NPC\\NPC-97503.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 97503,
+            "file_path": "results\\ppo\\NPC.onnx",
+            "reward": 11629.255828857422,
+            "creation_time": 1635903545.5755637,
+            "auxillary_file_paths": [
+                "results\\ppo\\NPC\\NPC-97503.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.27.0",
+        "torch_version": "1.7.1+cu110"
+    }
+}
