@@ -73,19 +73,20 @@ public class NPC : Agent
 
     // called when action is received from either {player, neural network}
     // each buffer position refers to an action, I decide what it means for each positions
-    // inside that structure has continuos and continuos actions
+    // inside that structure has continuos and discrete actions
     // index 0: -1 means move to the left, +1 means move to the right
+    // the cool thing about the neural network, is that it figurates it all automatic
     public override void OnActionReceived(ActionBuffers actions)
     {
         Vector2 movement = new Vector2(actions.ContinuousActions[0] * movementForce, 0);
         _rigidbody2D.velocity = movement;
     }
 
-    // I observe the horientation of the NPC to the nereast target
-    // also I inform about the distace from the NPC to nearest target
+    // Should include all variables relevant for following 
+    // to take the agent the optimally informed desition.
+    // No extraneous information here please
     public override void CollectObservations(VectorSensor sensor)
     {
-
         if (!currentTarget) return;
 
         Vector2 currentPos = new Vector2(transform.position.x, 0);
@@ -100,6 +101,7 @@ public class NPC : Agent
         sensor.AddObservation(targetPos);
         // 2 observations for movement velocity
         sensor.AddObservation(_rigidbody2D.velocity);
+        // Note: curiosamente si normalizo la velocidad, le cuesta mucho aprenderx
     }
 
     // this method allows me to interact with the game
@@ -128,50 +130,42 @@ public class NPC : Agent
         }
     }
 
+    // Returns the vector distance from current position to target
+    private Vector2 ToTarget()
+    {
+        // Vector2 currentPos = new Vector2(transform.position.x, 0);
+        // Vector2 targetPos = new Vector2(currentTarget.position.x, 0);
+        return currentTarget.position - transform.position;
+    }
+
     private void FixedUpdate()
     {
         // giving rewards if the horientation of the 
         // vector velocity if the correct horientation
         if (trainningMode && this.currentTarget)
         {
-            Vector2 currentPos = new Vector2(transform.position.x, 0);
-            Vector2 targetPos = new Vector2(currentTarget.position.x, 0);
-            Vector2 toTarget = targetPos - currentPos;
-
-            AddReward(Vector2.Dot(toTarget.normalized, _rigidbody2D.velocity.normalized) * (gainTouchBarTarget / 4));
+            AddReward(Vector2.Dot(ToTarget().normalized, _rigidbody2D.velocity.normalized) * (gainTouchBarTarget / 4));
         }
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
-
         Vector2 currentPos = new Vector2(transform.position.x, 0);
         Vector2 targetPos = new Vector2(currentTarget.position.x, 0);
         Vector2 toTarget = targetPos - currentPos;
         var horientation = Vector2.Dot(toTarget.normalized, _rigidbody2D.velocity.normalized);
 
+
         if (trainningMode && horientation <= 0)
         {
-            Debug.Log("Exit box area in wrong way...");
+            Debug.Log("current target");
+            Debug.Log(currentTarget);
+            Debug.Log("horientationd");
+            Debug.Log(horientation);
+
             AddReward(-gainTouchBarTarget * 4);
             EndEpisode();
         }
-    }
-
-    private void OnCollisionEnter2D(Collision2D other)
-    {
-        // Debug.Log("collision enter");
-        // foreach (CapsuleCollider2D capsule in capsulesCollider)
-        // {
-        //     if (capsule.IsTouchingLayers(LayerMask.GetMask("Hero")))
-        //     {
-
-        //     }
-        //     else
-        //     {
-        //         Debug.Log("lol no");
-        //     }
-        // }
     }
 
 

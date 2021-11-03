@@ -2,31 +2,49 @@
     "NPC": {
         "checkpoints": [
             {
-                "steps": 51455,
-                "file_path": "results\\ppo\\NPC\\NPC-51455.onnx",
-                "reward": null,
-                "creation_time": 1635903302.5626173,
+                "steps": 1392,
+                "file_path": "results\\ppo\\NPC\\NPC-1392.onnx",
+                "reward": 1497.7719993591309,
+                "creation_time": 1635963178.652529,
                 "auxillary_file_paths": [
-                    "results\\ppo\\NPC\\NPC-51455.pt"
+                    "results\\ppo\\NPC\\NPC-1392.pt"
                 ]
             },
             {
-                "steps": 97503,
-                "file_path": "results\\ppo\\NPC\\NPC-97503.onnx",
-                "reward": 11629.255828857422,
-                "creation_time": 1635903545.5755637,
+                "steps": 13712,
+                "file_path": "results\\ppo\\NPC\\NPC-13712.onnx",
+                "reward": 2668.3745670318604,
+                "creation_time": 1635963476.432274,
                 "auxillary_file_paths": [
-                    "results\\ppo\\NPC\\NPC-97503.pt"
+                    "results\\ppo\\NPC\\NPC-13712.pt"
+                ]
+            },
+            {
+                "steps": 59264,
+                "file_path": "results\\ppo\\NPC\\NPC-59264.onnx",
+                "reward": 10182.399373372396,
+                "creation_time": 1635964031.72778,
+                "auxillary_file_paths": [
+                    "results\\ppo\\NPC\\NPC-59264.pt"
+                ]
+            },
+            {
+                "steps": 172512,
+                "file_path": "results\\ppo\\NPC\\NPC-172512.onnx",
+                "reward": null,
+                "creation_time": 1635970807.6805542,
+                "auxillary_file_paths": [
+                    "results\\ppo\\NPC\\NPC-172512.pt"
                 ]
             }
         ],
         "final_checkpoint": {
-            "steps": 97503,
+            "steps": 172512,
             "file_path": "results\\ppo\\NPC.onnx",
-            "reward": 11629.255828857422,
-            "creation_time": 1635903545.5755637,
+            "reward": null,
+            "creation_time": 1635970807.6805542,
             "auxillary_file_paths": [
-                "results\\ppo\\NPC\\NPC-97503.pt"
+                "results\\ppo\\NPC\\NPC-172512.pt"
             ]
         }
     },
