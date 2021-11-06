@@ -1,20 +1,26 @@
-<mxfile host="app.diagrams.net" modified="2021-11-06T11:11:44.524Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" etag="ONei93auqLbwCesBL54X" version="15.7.0" type="github">
+<mxfile host="app.diagrams.net" modified="2021-11-06T11:16:13.063Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" etag="TFMtw4-ab52d7u51f9md" version="15.7.0" type="github">
   <diagram id="jnxX1dpqBWMMVxXvKskB" name="Page-1">
     <mxGraphModel dx="1122" dy="670" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="KNvALWube3b4RD5xJjOB-2" value="mlagents-learn" style="label;whiteSpace=wrap;html=1;align=center;verticalAlign=bottom;spacingLeft=0;spacingBottom=4;imageAlign=center;imageVerticalAlign=top;image=img/clipart/Gear_128x128.png" vertex="1" parent="1">
+        <mxCell id="KNvALWube3b4RD5xJjOB-2" value="&lt;span style=&quot;font-weight: normal&quot;&gt;mlagents-learn&lt;/span&gt;" style="label;whiteSpace=wrap;html=1;align=center;verticalAlign=bottom;spacingLeft=0;spacingBottom=4;imageAlign=center;imageVerticalAlign=top;image=img/clipart/Gear_128x128.png" vertex="1" parent="1">
           <mxGeometry x="550" y="390" width="120" height="80" as="geometry" />
         </mxCell>
         <mxCell id="KNvALWube3b4RD5xJjOB-5" value="&lt;font style=&quot;font-size: 16px&quot;&gt;Unity&lt;/font&gt;" style="shape=ext;double=1;rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="120" y="350" width="230" height="160" as="geometry" />
         </mxCell>
-        <mxCell id="KNvALWube3b4RD5xJjOB-9" value="Model" style="ellipse;shape=doubleEllipse;whiteSpace=wrap;html=1;fontFamily=Georgia;fontSize=14;fontColor=#000000;" vertex="1" parent="1">
-          <mxGeometry x="187.5" y="460" width="95" height="40" as="geometry" />
+        <mxCell id="KNvALWube3b4RD5xJjOB-9" value="NPC agent model" style="ellipse;shape=doubleEllipse;whiteSpace=wrap;html=1;fontFamily=Georgia;fontSize=14;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="130" y="460" width="210" height="40" as="geometry" />
         </mxCell>
         <mxCell id="KNvALWube3b4RD5xJjOB-11" value="" style="shape=doubleArrow;whiteSpace=wrap;html=1;fontFamily=Georgia;fontSize=14;fontColor=#000000;" vertex="1" parent="1">
           <mxGeometry x="350" y="420" width="200" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="KNvALWube3b4RD5xJjOB-15" value="configuration.yaml" style="shape=note;size=20;whiteSpace=wrap;html=1;fontFamily=Georgia;fontSize=14;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="540" y="210" width="140" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="KNvALWube3b4RD5xJjOB-16" value="" style="html=1;shadow=0;dashed=0;align=center;verticalAlign=middle;shape=mxgraph.arrows2.arrow;dy=0.6;dx=40;direction=south;notch=0;fontFamily=Georgia;fontSize=14;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry x="600" y="290" width="20" height="100" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
