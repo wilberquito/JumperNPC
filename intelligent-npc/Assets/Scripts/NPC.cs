@@ -21,18 +21,12 @@ public class NPC : Agent
     public override void Initialize()
     {
         _rigidbody2D = GetComponent<Rigidbody2D>();
-
         // infinite steps for session
         if (!trainningMode) MaxStep = 0;
-
-        // Debug.Log("Initialize...");
     }
 
     public override void OnEpisodeBegin()
     {
-        // reset gain obtein
-        gain = 0;
-
         // reseting movement inercy
         _rigidbody2D.velocity = Vector2.zero;
         //reseting positions
@@ -140,12 +134,12 @@ public class NPC : Agent
 
     private void FixedUpdate()
     {
-        // giving rewards if the horientation of the 
-        // vector velocity if the correct horientation
-        if (trainningMode && this.currentTarget)
-        {
-            AddReward(Vector2.Dot(ToTarget().normalized, _rigidbody2D.velocity.normalized) * (gainTouchBarTarget / 4));
-        }
+            // // giving rewards if the horientation of the 
+            // // vector velocity if the correct horientation
+            // if (trainningMode && this.currentTarget)
+            // {
+            //     AddReward(Vector2.Dot(ToTarget().normalized, _rigidbody2D.velocity.normalized) * (gainTouchBarTarget / 4));
+            // }
     }
 
     private void OnTriggerExit2D(Collider2D other)
@@ -155,14 +149,8 @@ public class NPC : Agent
         Vector2 toTarget = targetPos - currentPos;
         var horientation = Vector2.Dot(toTarget.normalized, _rigidbody2D.velocity.normalized);
 
-
         if (trainningMode && horientation <= 0)
         {
-            Debug.Log("current target");
-            Debug.Log(currentTarget);
-            Debug.Log("horientationd");
-            Debug.Log(horientation);
-
             AddReward(-gainTouchBarTarget * 4);
             EndEpisode();
         }

@@ -218,6 +218,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Area (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 8871819349504233921, guid: 6d06e845dff7785419a198f876f4644b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8871819349504233922, guid: 6d06e845dff7785419a198f876f4644b, type: 3}
       propertyPath: m_RootOrder
       value: 5
@@ -408,6 +412,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Area (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 8871819349504233921, guid: 6d06e845dff7785419a198f876f4644b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8871819349504233922, guid: 6d06e845dff7785419a198f876f4644b, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -464,6 +472,10 @@ PrefabInstance:
     - target: {fileID: 8871819349504233921, guid: 6d06e845dff7785419a198f876f4644b, type: 3}
       propertyPath: m_Name
       value: Area (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8871819349504233921, guid: 6d06e845dff7785419a198f876f4644b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8871819349504233922, guid: 6d06e845dff7785419a198f876f4644b, type: 3}
       propertyPath: m_RootOrder
@@ -564,6 +576,26 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8871819349504233922, guid: 6d06e845dff7785419a198f876f4644b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8871819351404967593, guid: 6d06e845dff7785419a198f876f4644b, type: 3}
+      propertyPath: m_Model
+      value: 
+      objectReference: {fileID: 5022602860645237092, guid: 6fe1f27c686f1694697457b71e86ed48, type: 3}
+    - target: {fileID: 8871819351404967593, guid: 6d06e845dff7785419a198f876f4644b, type: 3}
+      propertyPath: m_BehaviorType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8871819351404967593, guid: 6d06e845dff7785419a198f876f4644b, type: 3}
+      propertyPath: m_InferenceDevice
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8871819351404967599, guid: 6d06e845dff7785419a198f876f4644b, type: 3}
+      propertyPath: MaxStep
+      value: 6018
+      objectReference: {fileID: 0}
+    - target: {fileID: 8871819351404967599, guid: 6d06e845dff7785419a198f876f4644b, type: 3}
+      propertyPath: trainningMode
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
