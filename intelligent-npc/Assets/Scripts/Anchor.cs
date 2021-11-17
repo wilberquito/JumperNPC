@@ -5,17 +5,8 @@ using UnityEngine;
 public class Anchor : MonoBehaviour
 {
 
-    float range = 5f;
-
-
     // referencia a la posicion inicial del Agent
     Vector3 originNPC;
-
-
-    private void Awake()
-    {
-
-    }
 
     void Start()
     {
@@ -23,7 +14,6 @@ public class Anchor : MonoBehaviour
         if (agent && agent.GetComponent<NPC>())
         {
             originNPC = transform.parent.position;
-
         }
         else
         {

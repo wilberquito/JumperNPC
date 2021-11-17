@@ -5,24 +5,35 @@ using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
 
+// TODO: rename tags as limitleft and limitright
+
 public class NPC : Agent
 {
     [SerializeField] bool trainningMode = false;
     [SerializeField] float movementForce = 8f;
     // how much ml agent wins every time it touches the current target
     [SerializeField] float gainTouchBarTarget = 1f;
-    [SerializeField] Transform outTarget;
+    List<Transform> barsTarget = new List<Transform>();
+    GameObject currentTarget;
 
-    List<Transform> barsTarget;
-    Transform currentTarget;
     Rigidbody2D _rigidbody2D;
-    float gain = 0f;
+
+    private GameObject target
+    {
+        get => currentTarget;
+        set
+        {
+            currentTarget = value;
+        }
+    }
 
     public override void Initialize()
     {
         _rigidbody2D = GetComponent<Rigidbody2D>();
         // infinite steps for session
         if (!trainningMode) MaxStep = 0;
+
+        CatchLimits();
     }
 
     public override void OnEpisodeBegin()
@@ -33,36 +44,33 @@ public class NPC : Agent
         transform.position = transform.parent.position;
         // changin randomnes
         Random.InitState(System.DateTime.Now.Millisecond);
+        // current target rebooted
+        target = null;
         // finding the moving target
-        FindMovingTarget();
+        PickOneLimitAsTarget();
     }
 
-
-    // this methods sets the start target
-    // and obtain those bars that works as movement limitations
-    private void FindMovingTarget()
+    // sets the left and the right limit
+    private void CatchLimits()
     {
-        // Debug.Log("searching for moving target");
-        // I will search on parent childs for an object with tarjet 
-        // LeftTarget or RightTarget
-
-        Transform tr = transform.parent.transform;
-        // the lenght of this target before the loop should be 2
-        List<Transform> targets = new List<Transform>();
-
-        foreach (Transform child in tr)
+        // the length of barTarget should be 2
+        // in first position should be the left and in second position should be the right limit
+        foreach (Transform child in transform.parent.transform)
         {
-            if (child.tag == "LeftTarget" || child.tag == "RightTarget")
+            if (child.tag == "LeftTarget")
             {
-                targets.Add(child);
+                this.barsTarget.Add(child);
+                break;
             }
         }
-
-        // once found, pick one randomly
-        // the array should be of length 2
-        this.currentTarget = targets[Random.Range(0, 2)];
-        this.outTarget = currentTarget;
-        this.barsTarget = targets;
+        foreach (Transform child in transform.parent.transform)
+        {
+            if (child.tag == "RightTarget")
+            {
+                this.barsTarget.Add(child);
+                break;
+            }
+        }
     }
 
     // called when action is received from either {player, neural network}
@@ -81,10 +89,10 @@ public class NPC : Agent
     // No extraneous information here please
     public override void CollectObservations(VectorSensor sensor)
     {
-        if (!currentTarget) return;
+        if (!target) return;
 
         Vector2 currentPos = new Vector2(transform.position.x, 0);
-        Vector2 targetPos = new Vector2(currentTarget.position.x, 0);
+        Vector2 targetPos = new Vector2(target.transform.position.x, 0);
 
         Vector2 toTarget = targetPos - currentPos;
         // 2 observations (horientation)
@@ -112,7 +120,7 @@ public class NPC : Agent
         // check if agent is colliding with range movement bars
         // especific if its touching the current target
         // Note: everything diff from current target should not count
-        if (other.transform == this.currentTarget)
+        if (other.transform == target)
         {
             // iff we are in training mode
             if (trainningMode)
@@ -120,7 +128,7 @@ public class NPC : Agent
                 // add reward is method from MLAgents class
                 AddReward(gainTouchBarTarget);
             }
-            ChangeCurrentTarget();
+            PickOneLimitAsTarget();
         }
     }
 
@@ -129,23 +137,13 @@ public class NPC : Agent
     {
         // Vector2 currentPos = new Vector2(transform.position.x, 0);
         // Vector2 targetPos = new Vector2(currentTarget.position.x, 0);
-        return currentTarget.position - transform.position;
-    }
-
-    private void FixedUpdate()
-    {
-            // // giving rewards if the horientation of the 
-            // // vector velocity if the correct horientation
-            // if (trainningMode && this.currentTarget)
-            // {
-            //     AddReward(Vector2.Dot(ToTarget().normalized, _rigidbody2D.velocity.normalized) * (gainTouchBarTarget / 4));
-            // }
+        return target.transform.position - transform.position;
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
         Vector2 currentPos = new Vector2(transform.position.x, 0);
-        Vector2 targetPos = new Vector2(currentTarget.position.x, 0);
+        Vector2 targetPos = new Vector2(target.transform.position.x, 0);
         Vector2 toTarget = targetPos - currentPos;
         var horientation = Vector2.Dot(toTarget.normalized, _rigidbody2D.velocity.normalized);
 
@@ -156,24 +154,46 @@ public class NPC : Agent
         }
     }
 
+    // private void FixedUpdate()
+    // {
+    //     RayPerceptionSensorComponent2D[] sensors = GetComponentsInChildren<RayPerceptionSensorComponent2D>();
 
-    // this method is thought to change the current target
-    // basically it change the current target bar
-    // maybe latter this method also will pick and enemy as possible target
-    // Note: this function is not pure and modify the state of `currentTarget`
-    private void ChangeCurrentTarget()
+    //     foreach (RayPerceptionSensorComponent2D sensor in sensors)
+    //     {
+    //         var rays = sensor.RaySensor.RayPerceptionOutput.RayOutputs;
+    //         foreach (RayPerceptionOutput.RayOutput ray in rays)
+    //         {
+    //             if (ray.HasHit)
+    //             {
+    //                 // ChangeCurrentTarget(ray.HitGameObject);
+    //                 return;
+    //             }
+    //         }
+    //     }
+    // }
+
+    // There should be two bars
+    // when this method is called, it should 
+    // take the other bar as target if it is defined
+    // otherwise, it should select the nearest
+    private void PickOneLimitAsTarget()
     {
-        // changing current bar target for now...
-        foreach (Transform target in barsTarget)
+        // if no target setted, pick one of limits randomnly as target
+        if (!target)
         {
-            if (target != currentTarget)
+            target = this.barsTarget[Random.Range(0, 2)].gameObject;
+        }
+        else
+        {
+            // picking the opposite limit
+            foreach (Transform limit in this.barsTarget)
             {
-                currentTarget = target;
-                outTarget = currentTarget;
-                break;
+                if (target != limit)
+                {
+                    target = limit.gameObject;
+                    break;
+                }
             }
         }
     }
-
-
 }

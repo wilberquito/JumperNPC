@@ -276,7 +276,7 @@ GameObject:
   - component: {fileID: 8871819350765434678}
   - component: {fileID: 8871819350765434677}
   m_Layer: 6
-  m_Name: Square
+  m_Name: Platform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -583,8 +583,8 @@ MonoBehaviour:
   agentParameters:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
-  MaxStep: 6000
-  trainningMode: 1
+  MaxStep: 6018
+  trainningMode: 0
   movementForce: 1
   gainTouchBarTarget: 10
   outTarget: {fileID: 0}
@@ -611,8 +611,8 @@ MonoBehaviour:
     VectorActionSpaceType: 1
     hasUpgradedBrainParametersWithActionSpec: 1
   m_Model: {fileID: 0}
-  m_InferenceDevice: 0
-  m_BehaviorType: 0
+  m_InferenceDevice: 3
+  m_BehaviorType: 1
   m_BehaviorName: NPC
   TeamId: 0
   m_UseChildSensors: 1
