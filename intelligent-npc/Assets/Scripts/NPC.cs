@@ -115,8 +115,14 @@ public class NPC : Agent
         continuosActions[0] = force;
     }
 
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        Debug.Log("Collsion");
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
+        Debug.Log("Trigger");
         // check if agent is colliding with range movement bars
         // especific if its touching the current target
         // Note: everything diff from current target should not count
@@ -154,23 +160,55 @@ public class NPC : Agent
         }
     }
 
-    // private void FixedUpdate()
-    // {
-    //     RayPerceptionSensorComponent2D[] sensors = GetComponentsInChildren<RayPerceptionSensorComponent2D>();
+    private void FixedUpdate()
+    {
+        RayPerceptionSensorComponent2D[] sensors = GetComponentsInChildren<RayPerceptionSensorComponent2D>();
 
-    //     foreach (RayPerceptionSensorComponent2D sensor in sensors)
-    //     {
-    //         var rays = sensor.RaySensor.RayPerceptionOutput.RayOutputs;
-    //         foreach (RayPerceptionOutput.RayOutput ray in rays)
-    //         {
-    //             if (ray.HasHit)
-    //             {
-    //                 // ChangeCurrentTarget(ray.HitGameObject);
-    //                 return;
-    //             }
-    //         }
-    //     }
-    // }
+        foreach (RayPerceptionSensorComponent2D sensor in sensors)
+        {
+            var rays = sensor.RaySensor.RayPerceptionOutput.RayOutputs;
+            foreach (RayPerceptionOutput.RayOutput ray in rays)
+            {
+                if (ray.HasHit)
+                {
+                    if (this.target != ray.HitGameObject)
+                    {
+                        ChangeCurrentTarget(ray.HitGameObject);
+                    }
+                    Debug.Log("1");
+                    return;
+                }
+            }
+
+            Debug.Log("2");
+
+
+            // if the last target was the hero
+            // and arrives to this step it means it is
+            // out of ray length, otherwise, if current target
+            // is setted to null, is because the enemy 
+            // was killed or had disapered
+            if (!this.target)
+            {
+                PickOneLimitAsTarget();
+            }
+            else
+            {
+                var limit = this.barsTarget.Find(t => t == this.target);
+                if (!limit)
+                {
+                    PickOneLimitAsTarget();
+                }
+            }
+        }
+    }
+
+    // change the current target to the one passed as parameter
+    private void ChangeCurrentTarget(GameObject target)
+    {
+        this.target = target;
+        // Debug.Log("New enemy found");
+    }
 
     // There should be two bars
     // when this method is called, it should 
@@ -178,6 +216,7 @@ public class NPC : Agent
     // otherwise, it should select the nearest
     private void PickOneLimitAsTarget()
     {
+        // Debug.Log("Picking limit as target");
         // if no target setted, pick one of limits randomnly as target
         if (!target)
         {
