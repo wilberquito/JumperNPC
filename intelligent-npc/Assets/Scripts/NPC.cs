@@ -5,15 +5,19 @@ using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
 
-// TODO: rename tags as limitleft and limitright
 
 public class NPC : Agent
 {
     [SerializeField] bool trainningMode = false;
     [SerializeField] float movementForce = 8f;
     // how much ml agent wins every time it touches the current target
-    [SerializeField] float gainTouchBarTarget = 1f;
-    List<Transform> barsTarget = new List<Transform>();
+    [SerializeField] float gain = 1f;
+
+    [SerializeField] GameObject leftLimit;
+
+    [SerializeField] GameObject rightLimit;
+
+
     GameObject currentTarget;
 
     Rigidbody2D _rigidbody2D;
@@ -32,8 +36,6 @@ public class NPC : Agent
         _rigidbody2D = GetComponent<Rigidbody2D>();
         // infinite steps for session
         if (!trainningMode) MaxStep = 0;
-
-        CatchLimits();
     }
 
     public override void OnEpisodeBegin()
@@ -48,29 +50,6 @@ public class NPC : Agent
         target = null;
         // finding the moving target
         PickOneLimitAsTarget();
-    }
-
-    // sets the left and the right limit
-    private void CatchLimits()
-    {
-        // the length of barTarget should be 2
-        // in first position should be the left and in second position should be the right limit
-        foreach (Transform child in transform.parent.transform)
-        {
-            if (child.tag == "LeftTarget")
-            {
-                this.barsTarget.Add(child);
-                break;
-            }
-        }
-        foreach (Transform child in transform.parent.transform)
-        {
-            if (child.tag == "RightTarget")
-            {
-                this.barsTarget.Add(child);
-                break;
-            }
-        }
     }
 
     // called when action is received from either {player, neural network}
@@ -115,10 +94,10 @@ public class NPC : Agent
         continuosActions[0] = force;
     }
 
-    private void OnCollisionEnter2D(Collision2D other)
-    {
-        Debug.Log("Collsion");
-    }
+    // private void OnCollisionEnter2D(Collision2D other)
+    // {
+    //     Debug.Log("Collsion");
+    // }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -132,7 +111,7 @@ public class NPC : Agent
             if (trainningMode)
             {
                 // add reward is method from MLAgents class
-                AddReward(gainTouchBarTarget);
+                AddReward(gain);
             }
             PickOneLimitAsTarget();
         }
@@ -155,7 +134,7 @@ public class NPC : Agent
 
         if (trainningMode && horientation <= 0)
         {
-            AddReward(-gainTouchBarTarget * 4);
+            AddReward(-gain * 4);
             EndEpisode();
         }
     }
@@ -171,43 +150,20 @@ public class NPC : Agent
             {
                 if (ray.HasHit)
                 {
-                    if (this.target != ray.HitGameObject)
-                    {
-                        ChangeCurrentTarget(ray.HitGameObject);
-                    }
-                    Debug.Log("1");
+                    this.target = ray.HitGameObject;
                     return;
                 }
             }
-
-            Debug.Log("2");
-
-
-            // if the last target was the hero
-            // and arrives to this step it means it is
-            // out of ray length, otherwise, if current target
-            // is setted to null, is because the enemy 
-            // was killed or had disapered
-            if (!this.target)
-            {
-                PickOneLimitAsTarget();
-            }
-            else
-            {
-                var limit = this.barsTarget.Find(t => t == this.target);
-                if (!limit)
-                {
-                    PickOneLimitAsTarget();
-                }
-            }
         }
-    }
 
-    // change the current target to the one passed as parameter
-    private void ChangeCurrentTarget(GameObject target)
-    {
-        this.target = target;
-        // Debug.Log("New enemy found");
+        // There is no enemy or it is out of range
+        if (!(this.target == this.leftLimit || this.target == this.rightLimit))
+        {
+            Debug.Log("Picking one limit as target");
+            this.target = null;
+            PickOneLimitAsTarget();
+        }
+
     }
 
     // There should be two bars
@@ -220,19 +176,11 @@ public class NPC : Agent
         // if no target setted, pick one of limits randomnly as target
         if (!target)
         {
-            target = this.barsTarget[Random.Range(0, 2)].gameObject;
+            target = Random.Range(0, 2) == 0 ? this.leftLimit : this.rightLimit;
         }
         else
         {
-            // picking the opposite limit
-            foreach (Transform limit in this.barsTarget)
-            {
-                if (target != limit)
-                {
-                    target = limit.gameObject;
-                    break;
-                }
-            }
+            this.target = this.leftLimit == this.target ? this.rightLimit : this.leftLimit;
         }
     }
 }
