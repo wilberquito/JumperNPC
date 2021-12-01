@@ -117,13 +117,13 @@ public class NPC : Agent
         }
     }
 
-    // Returns the vector distance from current position to target
-    private Vector2 ToTarget()
-    {
-        // Vector2 currentPos = new Vector2(transform.position.x, 0);
-        // Vector2 targetPos = new Vector2(currentTarget.position.x, 0);
-        return target.transform.position - transform.position;
-    }
+    // // Returns the vector distance from current position to target
+    // private Vector2 ToTarget()
+    // {
+    //     // Vector2 currentPos = new Vector2(transform.position.x, 0);
+    //     // Vector2 targetPos = new Vector2(currentTarget.position.x, 0);
+    //     return target.transform.position - transform.position;
+    // }
 
     private void OnTriggerExit2D(Collider2D other)
     {
