@@ -25,9 +25,14 @@ public class NPC : Agent
     [Header("Defines how much power the npc has jumping")]
     [SerializeField] float jumpPower;
 
+    [SerializeField] float attackModeDuration = 1f;
+
     GameObject currentTarget;
 
     Rigidbody2D rb;
+
+    bool attackMode = false;
+
 
     private GameObject target
     {
@@ -55,6 +60,9 @@ public class NPC : Agent
         Random.InitState(System.DateTime.Now.Millisecond);
         // current target rebooted
         target = null;
+        // setting attack mode to false`
+        attackMode = false;
+
         // finding the moving target
         PickOneLimitAsTarget();
     }
@@ -66,16 +74,33 @@ public class NPC : Agent
     // the cool thing about the neural network, is that it figurates it all automatic
 
     // the second element is discrete parameter, which says jump or not [0,1]
-    // when npc jumps has the hability to make damage
+    // when npc jumps has the hability to make damage and only should jump when there is a enemy nearby
     public override void OnActionReceived(ActionBuffers actions)
     {
         int jump = actions.DiscreteActions[0];
         float horizontal = actions.ContinuousActions[0];
         Vector2 v = rb.velocity;
 
+        // run attack mode
+        if (jump == 1 && !attackMode)
+        {
+            StartCoroutine(AttackModeCoroutine());
+        }
+
         Vector2 movement = new Vector2(horizontal * movementPower, jump == 1 ? jump * jumpPower : v.y);
         rb.velocity = movement;
     }
+
+    // this routine update the state of attack mode after the yield to avoid
+    // agent to jump all the time in case there is an enemy nearby
+    private IEnumerator AttackModeCoroutine()
+    {
+        attackMode = true;
+        yield return new WaitForSeconds(attackModeDuration);
+        Debug.Log("To normal state...");
+        attackMode = false;
+    }
+
 
     // Should include all variables relevant for following 
     // to take the agent the optimally informed desition.
