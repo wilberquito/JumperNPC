@@ -7,13 +7,13 @@ public class HeroGenerator : MonoBehaviour
 {
     [SerializeField] bool turnOn = false;
 
-    [SerializeField] float spawnTime = 10f;
+    [SerializeField] float spawnTime = 25f;
 
-    [SerializeField] GameObject hero;
+    [SerializeField] Hero hero;
 
-    [SerializeField] float xRange = 30f;
+    [SerializeField] float xRange = 35f;
 
-    GameObject instance;
+    Hero instance;
 
     Platform platform;
 
@@ -23,6 +23,7 @@ public class HeroGenerator : MonoBehaviour
     {
         Random.InitState(System.DateTime.Now.Millisecond);
         platform = FindObjectOfType<Platform>();
+
         StartCoroutine(GenerateCoroutine());
     }
 
@@ -31,12 +32,12 @@ public class HeroGenerator : MonoBehaviour
         while (turnOn)
         {
             float range = Random.Range(0.8f, 1f);
-            yield return new WaitForSeconds(range * spawnTime);
             if (instance)
             {
-                Destroy(instance);
+                Destroy(instance.gameObject);
             }
             instance = Instantiate(hero, SaveRandomPosition(), Quaternion.identity);
+            yield return new WaitForSeconds(range * spawnTime);
         }
     }
 
@@ -46,7 +47,7 @@ public class HeroGenerator : MonoBehaviour
 
         int lrSide = Random.Range(0, 2) * 2 - 1;
 
-        float xfar = Random.Range(0.4f, 1f);
+        float xfar = Random.Range(0.6f, 1f);
 
         float yfar = Random.Range(0.8f, 1f);
 
