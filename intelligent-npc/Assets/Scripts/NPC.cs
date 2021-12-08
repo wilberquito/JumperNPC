@@ -8,7 +8,7 @@ using Unity.MLAgents.Sensors;
 
 public class NPC : Agent
 {
-    [SerializeField] bool trainningMode = false;
+    [SerializeField] bool trainning = false;
 
     [SerializeField] GameObject leftLimit;
 
@@ -45,7 +45,7 @@ public class NPC : Agent
     {
         rb = GetComponent<Rigidbody2D>();
         // infinite steps for session
-        if (!trainningMode) MaxStep = 0;
+        if (!trainning) MaxStep = 0;
     }
 
     public override void OnEpisodeBegin()
@@ -95,7 +95,7 @@ public class NPC : Agent
         Vector2 v = rb.velocity;
 
         // try to learn not to jump when it is not in the ground
-        if (trainningMode && jump == 1 && !ShouldJump())
+        if (trainning && jump == 1 && !ShouldJump())
         {
             AddReward(-gain);
             EndEpisode();
@@ -173,15 +173,13 @@ public class NPC : Agent
     // the limits
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("Trigger");
-        Debug.Log(other.gameObject);
         // check if agent is colliding with range movement bars
         // especific if its touching the current target
         // Note: everything diff from current target should not count
 
         bool limit = other.tag.Equals("LimitLeft") || other.tag.Equals("LimitRight");
 
-        if (limit && trainningMode)
+        if (limit && trainning)
         {
             // it had touched one of the limits
             AddReward(gain);
@@ -196,7 +194,7 @@ public class NPC : Agent
     {
         bool hero = other.gameObject.layer == LayerMask.NameToLayer("Hero");
 
-        if (hero && attackMode /*&& trainningMode*/)
+        if (hero && attackMode && trainning)
         {
             Debug.Log("Collision with hero in attack mode:");
             AddReward(gain * 5);
@@ -205,7 +203,7 @@ public class NPC : Agent
             return;
         }
 
-        if (hero && !attackMode && trainningMode)
+        if (hero && !attackMode && trainning)
         {
             Debug.Log("Collision with hero in normal mode:");
             AddReward(-gain * 5);
@@ -220,7 +218,7 @@ public class NPC : Agent
     {
         bool limit = other.tag.Equals("LimitLeft") || other.tag.Equals("LimitRight");
 
-        if (limit && trainningMode)
+        if (limit && trainning)
         {
             Vector2 currentPos = new Vector2(transform.position.x, 0);
             Vector2 targetPos = new Vector2(target.transform.position.x, 0);

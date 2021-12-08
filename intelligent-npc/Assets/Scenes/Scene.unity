@@ -371,8 +371,20 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8871819349527435613, guid: 6d06e845dff7785419a198f876f4644b, type: 3}
+      propertyPath: m_RayLength
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8871819349527435613, guid: 6d06e845dff7785419a198f876f4644b, type: 3}
       propertyPath: m_MaxRayDegrees
       value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 8871819349527435613, guid: 6d06e845dff7785419a198f876f4644b, type: 3}
+      propertyPath: m_RaysPerDirection
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8871819349527435613, guid: 6d06e845dff7785419a198f876f4644b, type: 3}
+      propertyPath: m_ObservationStacks
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8871819350596068047, guid: 6d06e845dff7785419a198f876f4644b, type: 3}
       propertyPath: m_RayLength
@@ -419,16 +431,20 @@ PrefabInstance:
       value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 8871819351404967599, guid: 6d06e845dff7785419a198f876f4644b, type: 3}
+      propertyPath: trainning
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8871819351404967599, guid: 6d06e845dff7785419a198f876f4644b, type: 3}
       propertyPath: distToGround
       value: 0.36
       objectReference: {fileID: 0}
     - target: {fileID: 8871819351404967599, guid: 6d06e845dff7785419a198f876f4644b, type: 3}
       propertyPath: movementPower
-      value: 6
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 8871819351404967599, guid: 6d06e845dff7785419a198f876f4644b, type: 3}
       propertyPath: attackModeDuration
-      value: 2
+      value: 3.5
       objectReference: {fileID: 0}
     - target: {fileID: 8871819351404967602, guid: 6d06e845dff7785419a198f876f4644b, type: 3}
       propertyPath: m_LocalPosition.y
