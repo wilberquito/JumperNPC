@@ -26,6 +26,8 @@ public class NPC : Agent
 
     [SerializeField] float attackModeDuration = 1f;
 
+    [SerializeField] RayPerceptionSensorComponent2D[] sensors;
+
 
     Rigidbody2D rb;
 
@@ -253,20 +255,19 @@ public class NPC : Agent
             return;
         }
 
-        RayPerceptionSensorComponent2D[] sensors = GetComponentsInChildren<RayPerceptionSensorComponent2D>();
-
-        foreach (RayPerceptionSensorComponent2D sensor in sensors)
+        foreach (var sensor in sensors)
         {
             var rays = sensor.RaySensor.RayPerceptionOutput.RayOutputs;
-            foreach (RayPerceptionOutput.RayOutput ray in rays)
+            foreach (var ray in rays)
             {
                 if (ray.HasHit)
                 {
-                    this.target = ray.HitGameObject;
+                    target = ray.HitGameObject.gameObject;
                     return;
                 }
             }
         }
+
         // when raycasting does not hit something
         // and the current target is a hero
         bool hero = this.target.layer == LayerMask.NameToLayer("Hero");

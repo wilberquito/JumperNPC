@@ -259,6 +259,28 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &941600745 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8871819349527435613, guid: 6d06e845dff7785419a198f876f4644b, type: 3}
+  m_PrefabInstance: {fileID: 8871819350112834652}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f67c7e722ba14acd9153bb4488bff6e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1144407697 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8871819350596068047, guid: 6d06e845dff7785419a198f876f4644b, type: 3}
+  m_PrefabInstance: {fileID: 8871819350112834652}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f67c7e722ba14acd9153bb4488bff6e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &8871819350112834652
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -446,6 +468,18 @@ PrefabInstance:
       propertyPath: attackModeDuration
       value: 3.5
       objectReference: {fileID: 0}
+    - target: {fileID: 8871819351404967599, guid: 6d06e845dff7785419a198f876f4644b, type: 3}
+      propertyPath: sensors.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8871819351404967599, guid: 6d06e845dff7785419a198f876f4644b, type: 3}
+      propertyPath: sensors.Array.data[0]
+      value: 
+      objectReference: {fileID: 1144407697}
+    - target: {fileID: 8871819351404967599, guid: 6d06e845dff7785419a198f876f4644b, type: 3}
+      propertyPath: sensors.Array.data[1]
+      value: 
+      objectReference: {fileID: 941600745}
     - target: {fileID: 8871819351404967602, guid: 6d06e845dff7785419a198f876f4644b, type: 3}
       propertyPath: m_LocalPosition.y
       value: 1.63
