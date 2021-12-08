@@ -67,29 +67,6 @@ public class NPC : Agent
         PickOneLimitAsTarget();
     }
 
-    // called when action is received from either {player, neural network}
-    // each buffer position refers to an action, I decide what it means for each positions
-    // inside that structure has continuos and discrete actions
-    // index 0: -1 means move to the left, +1 means move to the right
-    // the cool thing about the neural network, is that it figurates it all automatic
-
-    // the second element is discrete parameter, which says jump or not [0,1]
-    // when npc jumps has the hability to make damage and only should jump when there is a enemy nearby
-    public override void OnActionReceived(ActionBuffers actions)
-    {
-        int jump = actions.DiscreteActions[0];
-        float horizontal = actions.ContinuousActions[0];
-        Vector2 v = rb.velocity;
-
-        // run attack mode
-        if (jump == 1 && !attackMode)
-        {
-            StartCoroutine(AttackModeCoroutine());
-        }
-
-        Vector2 movement = new Vector2(horizontal * movementPower, jump == 1 ? jump * jumpPower : v.y);
-        rb.velocity = movement;
-    }
 
     // this routine update the state of attack mode after the yield to avoid
     // agent to jump all the time in case there is an enemy nearby
@@ -102,6 +79,74 @@ public class NPC : Agent
         attackMode = false;
     }
 
+    // called when action is received from either {player, neural network}
+    // each buffer position refers to an action, I decide what it means for each positions
+    // inside that structure has continuos and discrete actions
+    // index 0: -1 means move to the left, +1 means move to the right
+    // the cool thing about the neural network, is that it figurates it all automatic
+
+    // the second element is discrete parameter, which says jump or not [0,1]
+    // when npc jumps has the hability to make damage and only should jump when there is a enemy nearby
+    // and it is in the ground.
+
+    // in case it is not in the ground I penalize the agent
+    public override void OnActionReceived(ActionBuffers actions)
+    {
+        int jump = actions.DiscreteActions[0];
+        float horizontal = actions.ContinuousActions[0];
+        Vector2 v = rb.velocity;
+
+        // try to learn not to jump when it is not in the ground
+        if (trainningMode && jump == 1 && !ShouldJump())
+        {
+            AddReward(-gain);
+            EndEpisode();
+        }
+
+        // run attack mode
+        if (jump == 1 && !attackMode)
+        {
+            StartCoroutine(AttackModeCoroutine());
+        }
+
+        Vector2 movement = new Vector2(horizontal * movementPower, jump == 1 ? jump * jumpPower : v.y);
+        rb.velocity = movement;
+    }
+
+    // The Agent should only jump when is grounded or one of its ray touches a hero
+    // from Unity I had configure which elements can be touched by this rays
+    private bool ShouldJump()
+    {
+        if (!IsGrounded()) return false;
+
+
+        RayPerceptionSensorComponent2D[] sensors = GetComponentsInChildren<RayPerceptionSensorComponent2D>();
+
+        foreach (RayPerceptionSensorComponent2D sensor in sensors)
+        {
+            var rays = sensor.RaySensor.RayPerceptionOutput.RayOutputs;
+            foreach (RayPerceptionOutput.RayOutput ray in rays)
+            {
+                if (ray.HasHit)
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    // this method allows me to interact with the game
+    // when the ml agents is not set to trainning
+    public override void Heuristic(in ActionBuffers actionsOut)
+    {
+        ActionSegment<float> continuosActions = actionsOut.ContinuousActions;
+        ActionSegment<int> discreteActions = actionsOut.DiscreteActions;
+
+        discreteActions[0] = Input.GetKey(KeyCode.Space) && IsGrounded() ? 1 : 0;
+        continuosActions[0] = Input.GetAxis("Horizontal");
+    }
 
     // Should include all variables relevant for following 
     // to take the agent the optimally informed desition.
@@ -123,17 +168,6 @@ public class NPC : Agent
         // 2 observations for movement velocity
         sensor.AddObservation(rb.velocity);
         // Note: curiosamente si normalizo la velocidad, le cuesta mucho aprenderx
-    }
-
-    // this method allows me to interact with the game
-    // when the ml agents is not set to trainning
-    public override void Heuristic(in ActionBuffers actionsOut)
-    {
-        ActionSegment<float> continuosActions = actionsOut.ContinuousActions;
-        ActionSegment<int> discreteActions = actionsOut.DiscreteActions;
-
-        discreteActions[0] = Input.GetKey(KeyCode.Space) && IsGrounded() ? 1 : 0;
-        continuosActions[0] = Input.GetAxis("Horizontal");
     }
 
 
@@ -180,32 +214,23 @@ public class NPC : Agent
 
     }
 
-    // // Returns the vector distance from current position to target
-    // private Vector2 ToTarget()
-    // {
-    //     // Vector2 currentPos = new Vector2(transform.position.x, 0);
-    //     // Vector2 targetPos = new Vector2(currentTarget.position.x, 0);
-    //     return target.transform.position - transform.position;
-    // }
-
     // This method should penalize agent in case the current target
     // is one of the limits and the agent is outside of them
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (trainningMode)
-        {
-            if (other.tag.Equals("LimitLeft") || other.tag.Equals("LimitRight"))
-            {
-                Vector2 currentPos = new Vector2(transform.position.x, 0);
-                Vector2 targetPos = new Vector2(target.transform.position.x, 0);
-                Vector2 toTarget = targetPos - currentPos;
-                var horientation = Vector2.Dot(toTarget.normalized, rb.velocity.normalized);
+        bool limit = other.tag.Equals("LimitLeft") || other.tag.Equals("LimitRight");
 
-                if (horientation <= 0)
-                {
-                    AddReward(-gain * 4);
-                    EndEpisode();
-                }
+        if (limit && trainningMode)
+        {
+            Vector2 currentPos = new Vector2(transform.position.x, 0);
+            Vector2 targetPos = new Vector2(target.transform.position.x, 0);
+            Vector2 toTarget = targetPos - currentPos;
+            var horientation = Vector2.Dot(toTarget.normalized, rb.velocity.normalized);
+
+            if (horientation <= 0)
+            {
+                AddReward(-gain * 4);
+                EndEpisode();
             }
         }
     }
@@ -220,29 +245,28 @@ public class NPC : Agent
 
     private void FixedUpdate()
     {
-        // RayPerceptionSensorComponent2D[] sensors = GetComponentsInChildren<RayPerceptionSensorComponent2D>();
+        RayPerceptionSensorComponent2D[] sensors = GetComponentsInChildren<RayPerceptionSensorComponent2D>();
 
-        // foreach (RayPerceptionSensorComponent2D sensor in sensors)
-        // {
-        //     var rays = sensor.RaySensor.RayPerceptionOutput.RayOutputs;
-        //     foreach (RayPerceptionOutput.RayOutput ray in rays)
-        //     {
-        //         if (ray.HasHit)
-        //         {
-        //             this.target = ray.HitGameObject;
-        //             return;
-        //         }
-        //     }
-        // }
-
-        // // There is no enemy or it is out of range
-        // if (!(this.target == this.leftLimit || this.target == this.rightLimit))
-        // {
-        //     Debug.Log("Picking one limit as target");
-        //     this.target = null;
-        //     PickOneLimitAsTarget();
-        // }
-
+        foreach (RayPerceptionSensorComponent2D sensor in sensors)
+        {
+            var rays = sensor.RaySensor.RayPerceptionOutput.RayOutputs;
+            foreach (RayPerceptionOutput.RayOutput ray in rays)
+            {
+                if (ray.HasHit)
+                {
+                    this.target = ray.HitGameObject;
+                    return;
+                }
+            }
+        }
+        // when raycasting does not hit something
+        // and the current target is a hero
+        bool hero = this.target.layer == LayerMask.NameToLayer("Hero");
+        if (hero)
+        {
+            this.target = null;
+            PickOneLimitAsTarget();
+        }
     }
 
     // There should be two bars
@@ -251,7 +275,6 @@ public class NPC : Agent
     // otherwise, it select one of them
     private void PickOneLimitAsTarget()
     {
-        // Debug.Log("Picking limit as target");
         // if no target setted, pick one of limits randomnly as target
         if (!target)
         {
