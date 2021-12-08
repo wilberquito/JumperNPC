@@ -165,19 +165,28 @@ public class NPC : Agent
     //     return target.transform.position - transform.position;
     // }
 
+    // This method should penalize agent in case the current target
+    // is one of the limits and the agent is outside of them
     private void OnTriggerExit2D(Collider2D other)
     {
-        Vector2 currentPos = new Vector2(transform.position.x, 0);
-        Vector2 targetPos = new Vector2(target.transform.position.x, 0);
-        Vector2 toTarget = targetPos - currentPos;
-        var horientation = Vector2.Dot(toTarget.normalized, rb.velocity.normalized);
-
-        if (trainningMode && horientation <= 0)
+        if (trainningMode)
         {
-            AddReward(-gain * 4);
-            EndEpisode();
+            if (other.tag.Equals("LimitLeft") || other.tag.Equals("LimitRight"))
+            {
+                Vector2 currentPos = new Vector2(transform.position.x, 0);
+                Vector2 targetPos = new Vector2(target.transform.position.x, 0);
+                Vector2 toTarget = targetPos - currentPos;
+                var horientation = Vector2.Dot(toTarget.normalized, rb.velocity.normalized);
+
+                if (horientation <= 0)
+                {
+                    AddReward(-gain * 4);
+                    EndEpisode();
+                }
+            }
         }
     }
+
     // check if the NPC is grounded
     private bool IsGrounded()
     {

@@ -4,8 +4,8 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - LeftTarget
-  - RightTarget
+  - LimitLeft
+  - LimitRight
   layers:
   - Default
   - TransparentFX
