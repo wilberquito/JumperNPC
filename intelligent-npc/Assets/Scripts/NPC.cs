@@ -136,9 +136,9 @@ public class NPC : Agent
         continuosActions[0] = Input.GetAxis("Horizontal");
     }
 
-    // two types of collision are thought
-    // 1. collision with movement limits
-    // 2. possible enemy
+
+    // just one type of trigger is thought
+    // the limits
     private void OnTriggerEnter2D(Collider2D other)
     {
         Debug.Log("Trigger");
@@ -154,19 +154,30 @@ public class NPC : Agent
             // it had touched one of the limits
             AddReward(gain);
             PickOneLimitAsTarget();
+        }
+
+    }
+
+    // This method should add gain to agent
+    // if the collision is made with a hero layer
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        bool hero = other.gameObject.layer == LayerMask.NameToLayer("Hero");
+
+        if (hero && attackMode && trainningMode)
+        {
+            Debug.Log("Collision with hero in attack mode:");
+            AddReward(gain * 5);
             return;
         }
 
-        if (!limit && attackMode)
+        if (hero && !attackMode && trainningMode)
         {
-            Debug.Log("HIT ENEMY");
+            Debug.Log("Collision with hero in normal mode:");
+            AddReward(-gain * 5);
+            return;
         }
 
-        // if (!limit && attackMode && trainningMode)
-        // {
-        //     // it may its enemy
-        //     AddReward(gain * 2);
-        // }
     }
 
     // // Returns the vector distance from current position to target
