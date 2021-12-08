@@ -119,10 +119,7 @@ public class NPC : Agent
     {
         if (!IsGrounded()) return false;
 
-
-        RayPerceptionSensorComponent2D[] sensors = GetComponentsInChildren<RayPerceptionSensorComponent2D>();
-
-        foreach (RayPerceptionSensorComponent2D sensor in sensors)
+        foreach (var sensor in sensors)
         {
             var rays = sensor.RaySensor.RayPerceptionOutput.RayOutputs;
             foreach (RayPerceptionOutput.RayOutput ray in rays)
