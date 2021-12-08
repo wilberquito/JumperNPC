@@ -136,6 +136,9 @@ public class NPC : Agent
         continuosActions[0] = Input.GetAxis("Horizontal");
     }
 
+    // two types of collision are thought
+    // 1. collision with movement limits
+    // 2. possible enemy
     private void OnTriggerEnter2D(Collider2D other)
     {
         Debug.Log("Trigger");
@@ -147,7 +150,6 @@ public class NPC : Agent
             // iff we are in training mode
             if (trainningMode)
             {
-                // add reward is method from MLAgents class
                 AddReward(gain);
             }
             PickOneLimitAsTarget();
