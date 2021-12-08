@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 217028526}
   - component: {fileID: 217028527}
-  - component: {fileID: 217028528}
   m_Layer: 8
   m_Name: Hero
   m_TagString: Untagged
@@ -85,22 +84,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!58 &217028528
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 217028525}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.0012664199}
-  serializedVersion: 2
-  m_Radius: 0.08860211
 --- !u!1 &8871819349411833106
 GameObject:
   m_ObjectHideFlags: 0
@@ -687,10 +670,13 @@ MonoBehaviour:
   hasUpgradedFromAgentParameters: 1
   MaxStep: 6018
   trainningMode: 0
-  movementForce: 1
+  movementPower: 8
   gain: 1
   leftLimit: {fileID: 8871819349451225129}
   rightLimit: {fileID: 8871819349411833106}
+  distToGround: 0.36
+  jumpPower: 0
+  attackModeDuration: 1
 --- !u!114 &8871819351404967593
 MonoBehaviour:
   m_ObjectHideFlags: 0

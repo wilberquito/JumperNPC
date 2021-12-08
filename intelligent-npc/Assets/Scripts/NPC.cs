@@ -146,15 +146,27 @@ public class NPC : Agent
         // check if agent is colliding with range movement bars
         // especific if its touching the current target
         // Note: everything diff from current target should not count
-        if (other.transform == target)
+
+        bool limit = other.tag.Equals("LimitLeft") || other.tag.Equals("LimitRight");
+
+        if (limit && trainningMode)
         {
-            // iff we are in training mode
-            if (trainningMode)
-            {
-                AddReward(gain);
-            }
+            // it had touched one of the limits
+            AddReward(gain);
             PickOneLimitAsTarget();
+            return;
         }
+
+        if (!limit && attackMode)
+        {
+            Debug.Log("HIT ENEMY");
+        }
+
+        // if (!limit && attackMode && trainningMode)
+        // {
+        //     // it may its enemy
+        //     AddReward(gain * 2);
+        // }
     }
 
     // // Returns the vector distance from current position to target
