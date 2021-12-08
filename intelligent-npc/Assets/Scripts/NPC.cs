@@ -142,6 +142,7 @@ public class NPC : Agent
     private void OnTriggerEnter2D(Collider2D other)
     {
         Debug.Log("Trigger");
+        Debug.Log(other.gameObject);
         // check if agent is colliding with range movement bars
         // especific if its touching the current target
         // Note: everything diff from current target should not count
@@ -215,7 +216,7 @@ public class NPC : Agent
     // There should be two bars
     // when this method is called, it should 
     // take the other bar as target if it is defined
-    // otherwise, it should select the nearest
+    // otherwise, it select one of them
     private void PickOneLimitAsTarget()
     {
         // Debug.Log("Picking limit as target");
