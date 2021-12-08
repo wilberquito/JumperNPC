@@ -95,9 +95,10 @@ public class NPC : Agent
     // agent to jump all the time in case there is an enemy nearby
     private IEnumerator AttackModeCoroutine()
     {
+        Debug.Log("To attack mode...");
         attackMode = true;
         yield return new WaitForSeconds(attackModeDuration);
-        Debug.Log("To normal state...");
+        Debug.Log("To normal mode...");
         attackMode = false;
     }
 
