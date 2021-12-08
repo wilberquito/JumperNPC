@@ -9,7 +9,9 @@ using Unity.MLAgents.Sensors;
 public class NPC : Agent
 {
     [SerializeField] bool trainningMode = false;
-    [SerializeField] float movementForce = 8f;
+
+    [SerializeField] float movementPower = 8f;
+
     // how much ml agent wins every time it touches the current target
     [SerializeField] float gain = 1f;
 
@@ -17,10 +19,15 @@ public class NPC : Agent
 
     [SerializeField] GameObject rightLimit;
 
+    [Header("Avoid collision with same gameobject or other")]
+    [SerializeField] float distToGround = 0.36f;
+
+    [Header("Defines how much power the npc has jumping")]
+    [SerializeField] float jumpPower;
 
     GameObject currentTarget;
 
-    Rigidbody2D _rigidbody2D;
+    Rigidbody2D rb;
 
     private GameObject target
     {
@@ -33,7 +40,7 @@ public class NPC : Agent
 
     public override void Initialize()
     {
-        _rigidbody2D = GetComponent<Rigidbody2D>();
+        rb = GetComponent<Rigidbody2D>();
         // infinite steps for session
         if (!trainningMode) MaxStep = 0;
     }
@@ -41,7 +48,7 @@ public class NPC : Agent
     public override void OnEpisodeBegin()
     {
         // reseting movement inercy
-        _rigidbody2D.velocity = Vector2.zero;
+        rb.velocity = Vector2.zero;
         //reseting positions
         transform.position = transform.parent.position;
         // changin randomnes
@@ -57,10 +64,17 @@ public class NPC : Agent
     // inside that structure has continuos and discrete actions
     // index 0: -1 means move to the left, +1 means move to the right
     // the cool thing about the neural network, is that it figurates it all automatic
+
+    // the second element is discrete parameter, which says jump or not [0,1]
+    // when npc jumps has the hability to make damage
     public override void OnActionReceived(ActionBuffers actions)
     {
-        Vector2 movement = new Vector2(actions.ContinuousActions[0] * movementForce, 0);
-        _rigidbody2D.velocity = movement;
+        int jump = actions.DiscreteActions[0];
+        float horizontal = actions.ContinuousActions[0];
+        Vector2 v = rb.velocity;
+
+        Vector2 movement = new Vector2(horizontal * movementPower, jump == 1 ? jump * jumpPower : v.y);
+        rb.velocity = movement;
     }
 
     // Should include all variables relevant for following 
@@ -81,7 +95,7 @@ public class NPC : Agent
         // 2 observations for current target position
         sensor.AddObservation(targetPos);
         // 2 observations for movement velocity
-        sensor.AddObservation(_rigidbody2D.velocity);
+        sensor.AddObservation(rb.velocity);
         // Note: curiosamente si normalizo la velocidad, le cuesta mucho aprenderx
     }
 
@@ -90,14 +104,11 @@ public class NPC : Agent
     public override void Heuristic(in ActionBuffers actionsOut)
     {
         ActionSegment<float> continuosActions = actionsOut.ContinuousActions;
-        var force = Input.GetAxis("Horizontal");
-        continuosActions[0] = force;
-    }
+        ActionSegment<int> discreteActions = actionsOut.DiscreteActions;
 
-    // private void OnCollisionEnter2D(Collision2D other)
-    // {
-    //     Debug.Log("Collsion");
-    // }
+        discreteActions[0] = Input.GetKey(KeyCode.Space) && IsGrounded() ? 1 : 0;
+        continuosActions[0] = Input.GetAxis("Horizontal");
+    }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -130,7 +141,7 @@ public class NPC : Agent
         Vector2 currentPos = new Vector2(transform.position.x, 0);
         Vector2 targetPos = new Vector2(target.transform.position.x, 0);
         Vector2 toTarget = targetPos - currentPos;
-        var horientation = Vector2.Dot(toTarget.normalized, _rigidbody2D.velocity.normalized);
+        var horientation = Vector2.Dot(toTarget.normalized, rb.velocity.normalized);
 
         if (trainningMode && horientation <= 0)
         {
@@ -138,31 +149,38 @@ public class NPC : Agent
             EndEpisode();
         }
     }
+    // check if the NPC is grounded
+    private bool IsGrounded()
+    {
+        Debug.DrawRay(transform.position, -Vector3.up * 5, Color.red, 0.5f);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, -Vector3.up, distToGround + 0.01f, LayerMask.GetMask("Ground"));
+        return hit;
+    }
 
     private void FixedUpdate()
     {
-        RayPerceptionSensorComponent2D[] sensors = GetComponentsInChildren<RayPerceptionSensorComponent2D>();
+        // RayPerceptionSensorComponent2D[] sensors = GetComponentsInChildren<RayPerceptionSensorComponent2D>();
 
-        foreach (RayPerceptionSensorComponent2D sensor in sensors)
-        {
-            var rays = sensor.RaySensor.RayPerceptionOutput.RayOutputs;
-            foreach (RayPerceptionOutput.RayOutput ray in rays)
-            {
-                if (ray.HasHit)
-                {
-                    this.target = ray.HitGameObject;
-                    return;
-                }
-            }
-        }
+        // foreach (RayPerceptionSensorComponent2D sensor in sensors)
+        // {
+        //     var rays = sensor.RaySensor.RayPerceptionOutput.RayOutputs;
+        //     foreach (RayPerceptionOutput.RayOutput ray in rays)
+        //     {
+        //         if (ray.HasHit)
+        //         {
+        //             this.target = ray.HitGameObject;
+        //             return;
+        //         }
+        //     }
+        // }
 
-        // There is no enemy or it is out of range
-        if (!(this.target == this.leftLimit || this.target == this.rightLimit))
-        {
-            Debug.Log("Picking one limit as target");
-            this.target = null;
-            PickOneLimitAsTarget();
-        }
+        // // There is no enemy or it is out of range
+        // if (!(this.target == this.leftLimit || this.target == this.rightLimit))
+        // {
+        //     Debug.Log("Picking one limit as target");
+        //     this.target = null;
+        //     PickOneLimitAsTarget();
+        // }
 
     }
 
