@@ -423,8 +423,12 @@ PrefabInstance:
       value: 0.36
       objectReference: {fileID: 0}
     - target: {fileID: 8871819351404967599, guid: 6d06e845dff7785419a198f876f4644b, type: 3}
+      propertyPath: movementPower
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8871819351404967599, guid: 6d06e845dff7785419a198f876f4644b, type: 3}
       propertyPath: attackModeDuration
-      value: 1.5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8871819351404967602, guid: 6d06e845dff7785419a198f876f4644b, type: 3}
       propertyPath: m_LocalPosition.y

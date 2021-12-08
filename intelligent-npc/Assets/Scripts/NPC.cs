@@ -10,24 +10,22 @@ public class NPC : Agent
 {
     [SerializeField] bool trainningMode = false;
 
-    [SerializeField] float movementPower = 8f;
-
-    // how much ml agent wins every time it touches the current target
-    [SerializeField] float gain = 1f;
-
     [SerializeField] GameObject leftLimit;
 
     [SerializeField] GameObject rightLimit;
 
-    [Header("Avoid collision with same gameobject or other")]
+    [SerializeField] GameObject currentTarget;
+
+    [SerializeField] float gain = 1f;
+
     [SerializeField] float distToGround = 0.36f;
 
-    [Header("Defines how much power the npc has jumping")]
     [SerializeField] float jumpPower;
+
+    [SerializeField] float movementPower = 8f;
 
     [SerializeField] float attackModeDuration = 1f;
 
-    GameObject currentTarget;
 
     Rigidbody2D rb;
 
@@ -198,10 +196,12 @@ public class NPC : Agent
     {
         bool hero = other.gameObject.layer == LayerMask.NameToLayer("Hero");
 
-        if (hero && attackMode && trainningMode)
+        if (hero && attackMode /*&& trainningMode*/)
         {
             Debug.Log("Collision with hero in attack mode:");
             AddReward(gain * 5);
+            Destroy(other.gameObject);
+            target = null;
             return;
         }
 
@@ -243,8 +243,18 @@ public class NPC : Agent
         return hit;
     }
 
+    // 1. Check if there is target, if not updates target as one of limits
+    // 2. Check if any ray is hitting hero
+    // 3. If none ray is hitting hero if means that
+    // in previous state it was and now no, updates target as one of limits
     private void FixedUpdate()
     {
+        if (!target)
+        {
+            PickOneLimitAsTarget();
+            return;
+        }
+
         RayPerceptionSensorComponent2D[] sensors = GetComponentsInChildren<RayPerceptionSensorComponent2D>();
 
         foreach (RayPerceptionSensorComponent2D sensor in sensors)
