@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &217028525
+--- !u!1 &578064734
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,82 +8,44 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 217028526}
-  - component: {fileID: 217028527}
-  m_Layer: 8
-  m_Name: Hero
+  - component: {fileID: 578064736}
+  - component: {fileID: 578064735}
+  m_Layer: 0
+  m_Name: HeroGenerator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &217028526
+  m_IsActive: 1
+--- !u!4 &578064736
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 217028525}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.25, y: 0.88, z: 0}
-  m_LocalScale: {x: 4, y: 4, z: 4}
+  m_GameObject: {fileID: 578064734}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 2.2018664, y: 1.302493, z: -0.032226954}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8871819349504233922}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &217028527
-SpriteRenderer:
+--- !u!114 &578064735
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 217028525}
+  m_GameObject: {fileID: 578064734}
   m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 0
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
-  m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 0.2, y: 0.2}
-  m_AdaptiveModeThreshold: 0.5
-  m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f31da4166023cc4685f2f3f53156490, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  turnOn: 0
+  spawnTime: 5
 --- !u!1 &8871819349411833106
 GameObject:
   m_ObjectHideFlags: 0
@@ -95,8 +57,8 @@ GameObject:
   - component: {fileID: 8871819349411833107}
   - component: {fileID: 8871819349411833100}
   m_Layer: 0
-  m_Name: AnchorRight
-  m_TagString: RightTarget
+  m_Name: LimitRight
+  m_TagString: LimitRight
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -109,8 +71,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8871819349411833106}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 5.1, z: 1}
+  m_LocalPosition: {x: 7, y: 2, z: 0}
+  m_LocalScale: {x: 1, y: 10, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8871819350836851925}
@@ -153,8 +115,8 @@ GameObject:
   - component: {fileID: 8871819349451225130}
   - component: {fileID: 8871819349451225131}
   m_Layer: 0
-  m_Name: AnchorLeft
-  m_TagString: LeftTarget
+  m_Name: LimitLeft
+  m_TagString: LimitLeft
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -167,8 +129,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8871819349451225129}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 5.1, z: 1}
+  m_LocalPosition: {x: -7, y: 2, z: 0}
+  m_LocalScale: {x: 1, y: 10, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8871819350836851925}
@@ -230,7 +192,7 @@ Transform:
   m_Children:
   - {fileID: 8871819350836851925}
   - {fileID: 8871819350765434672}
-  - {fileID: 217028526}
+  - {fileID: 578064736}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -282,7 +244,7 @@ MonoBehaviour:
   m_DetectableTags:
   - Untagged
   m_RaysPerDirection: 4
-  m_MaxRayDegrees: 50
+  m_MaxRayDegrees: 80
   m_SphereCastRadius: 0
   m_RayLength: 1
   m_RayLayerMask:
@@ -339,7 +301,7 @@ MonoBehaviour:
   m_DetectableTags:
   - Untagged
   m_RaysPerDirection: 4
-  m_MaxRayDegrees: 50
+  m_MaxRayDegrees: 80
   m_SphereCastRadius: 0
   m_RayLength: 1
   m_RayLayerMask:
@@ -453,7 +415,7 @@ Rigidbody2D:
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 0
 --- !u!61 &8871819350765434677
 BoxCollider2D:
@@ -491,7 +453,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8871819350836851925}
   m_Layer: 0
-  m_Name: NPc
+  m_Name: NPC
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -545,7 +507,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8871819351404967601}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 1.63, z: 0}
   m_LocalScale: {x: 5, y: 5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -618,7 +580,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 100
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
@@ -626,7 +588,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 6
+  m_Constraints: 4
 --- !u!61 &8871819351404967588
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -669,14 +631,18 @@ MonoBehaviour:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
   MaxStep: 6018
-  trainningMode: 0
-  movementPower: 8
-  gain: 1
+  trainning: 0
   leftLimit: {fileID: 8871819349451225129}
   rightLimit: {fileID: 8871819349411833106}
+  currentTarget: {fileID: 0}
+  gain: 1
   distToGround: 0.36
-  jumpPower: 0
-  attackModeDuration: 1
+  jumpPower: 20
+  movementPower: 7
+  attackModeDuration: 3.5
+  sensors:
+  - {fileID: 8871819350596068047}
+  - {fileID: 8871819349527435613}
 --- !u!114 &8871819351404967593
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -694,14 +660,14 @@ MonoBehaviour:
     NumStackedVectorObservations: 1
     m_ActionSpec:
       m_NumContinuousActions: 1
-      BranchSizes: 
-    VectorActionSize: 01000000
+      BranchSizes: 00000000
+    VectorActionSize: 
     VectorActionDescriptions: []
     VectorActionSpaceType: 1
     hasUpgradedBrainParametersWithActionSpec: 1
   m_Model: {fileID: 0}
-  m_InferenceDevice: 3
-  m_BehaviorType: 1
+  m_InferenceDevice: 0
+  m_BehaviorType: 0
   m_BehaviorName: NPC
   TeamId: 0
   m_UseChildSensors: 1
