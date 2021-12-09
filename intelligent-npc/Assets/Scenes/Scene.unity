@@ -329,7 +329,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8871819350596068047, guid: 6d06e845dff7785419a198f876f4644b, type: 3}
       propertyPath: m_RayLength
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8871819350596068047, guid: 6d06e845dff7785419a198f876f4644b, type: 3}
       propertyPath: m_ObservationStacks

@@ -193,7 +193,7 @@ public class NPC : Agent
     {
         bool hero = other.gameObject.layer == LayerMask.NameToLayer("Hero");
 
-        if (hero && attackMode && trainning)
+        if (trainning && hero && attackMode)
         {
             Debug.Log("Collision with hero in attack mode:");
             AddReward(gain * 5);
@@ -202,10 +202,11 @@ public class NPC : Agent
             return;
         }
 
-        if (hero && !attackMode && trainning)
+        if (trainning && hero && !attackMode)
         {
             Debug.Log("Collision with hero in normal mode:");
             AddReward(-gain * 5);
+            EndEpisode();
             return;
         }
 
@@ -217,7 +218,7 @@ public class NPC : Agent
     {
         bool limit = other.tag.Equals("LimitLeft") || other.tag.Equals("LimitRight");
 
-        if (limit && trainning)
+        if (trainning && limit)
         {
             Vector2 currentPos = new Vector2(transform.position.x, 0);
             Vector2 targetPos = new Vector2(target.transform.position.x, 0);
