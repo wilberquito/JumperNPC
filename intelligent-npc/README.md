@@ -5,3 +5,6 @@
 ```
 mlagents-learn <trainer-config-file> --env=<env_name> --run-id=<run-identifier>
 ```
+
+### Using virtual environment
+[Reference](https://github.com/Unity-Technologies/ml-agents/blob/main/docs/Using-Virtual-Environment.md)
