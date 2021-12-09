@@ -242,7 +242,7 @@ public class NPC : Agent
     {
         Debug.DrawRay(transform.position, -Vector3.up * 5, Color.red, 0.5f);
         RaycastHit2D hit = Physics2D.Raycast(transform.position, -Vector3.up, distToGround + 0.01f, LayerMask.GetMask("Ground"));
-        Debug.Log(hit.distance);
+        // Debug.Log(hit.distance);
         return hit;
     }
 
