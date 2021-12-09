@@ -28,6 +28,7 @@ public class NPC : Agent
 
     [SerializeField] RayPerceptionSensorComponent2D[] sensors;
 
+    AnimatorHandler animatorHandler;
 
     Rigidbody2D rb;
 
@@ -41,6 +42,11 @@ public class NPC : Agent
         {
             currentTarget = value;
         }
+    }
+
+    private void Start()
+    {
+        animatorHandler = GetComponent<AnimatorHandler>();
     }
 
     public override void Initialize()
@@ -74,9 +80,11 @@ public class NPC : Agent
     {
         Debug.Log("To attack mode...");
         attackMode = true;
+        animatorHandler.AttackMode();
         yield return new WaitForSeconds(attackModeDuration);
         Debug.Log("To normal mode...");
         attackMode = false;
+        animatorHandler.NormalMode();
     }
 
     // called when action is received from either {player, neural network}
@@ -117,21 +125,14 @@ public class NPC : Agent
     // from Unity I had configure which elements can be touched by this rays
     private bool ShouldJump()
     {
-        if (!IsGrounded())
-        {
-            Debug.Log("not is grounded");
-            return false;
-        }
-        Debug.Log("Is grounded");
+        if (!IsGrounded()) return false;
+
         foreach (var sensor in sensors)
         {
             var rays = sensor.RaySensor.RayPerceptionOutput.RayOutputs;
             foreach (RayPerceptionOutput.RayOutput ray in rays)
             {
-                if (ray.HasHit)
-                {
-                    return true;
-                }
+                if (ray.HasHit) return true;
             }
         }
 
