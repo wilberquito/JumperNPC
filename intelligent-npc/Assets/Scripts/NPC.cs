@@ -10,9 +10,9 @@ public class NPC : Agent
 {
     [SerializeField] bool trainning = false;
 
-    [SerializeField] GameObject leftLimit;
+    [SerializeField] Limit leftLimit;
 
-    [SerializeField] GameObject rightLimit;
+    [SerializeField] Limit rightLimit;
 
     [SerializeField] GameObject currentTarget;
 
@@ -71,6 +71,15 @@ public class NPC : Agent
 
         // finding the moving target
         PickOneLimitAsTarget();
+
+        // restart limits
+        RestartLimits();
+    }
+
+    private void RestartLimits()
+    {
+        leftLimit.Restart();
+        rightLimit.Restart();
     }
 
 
@@ -193,6 +202,12 @@ public class NPC : Agent
             // it had touched one of the limits
             AddReward(gain);
             PickOneLimitAsTarget();
+        }
+
+        if (trainning && limit && other.gameObject != target)
+        {
+            AddReward(-gain);
+            EndEpisode();
         }
 
     }
