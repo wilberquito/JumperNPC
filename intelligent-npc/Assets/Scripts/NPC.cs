@@ -117,8 +117,12 @@ public class NPC : Agent
     // from Unity I had configure which elements can be touched by this rays
     private bool ShouldJump()
     {
-        if (!IsGrounded()) return false;
-
+        if (!IsGrounded())
+        {
+            Debug.Log("not is grounded");
+            return false;
+        }
+        Debug.Log("Is grounded");
         foreach (var sensor in sensors)
         {
             var rays = sensor.RaySensor.RayPerceptionOutput.RayOutputs;
@@ -238,6 +242,7 @@ public class NPC : Agent
     {
         Debug.DrawRay(transform.position, -Vector3.up * 5, Color.red, 0.5f);
         RaycastHit2D hit = Physics2D.Raycast(transform.position, -Vector3.up, distToGround + 0.01f, LayerMask.GetMask("Ground"));
+        Debug.Log(hit.distance);
         return hit;
     }
 
