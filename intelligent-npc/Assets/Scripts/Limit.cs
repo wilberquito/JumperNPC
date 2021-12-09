@@ -8,6 +8,11 @@ public class Limit : MonoBehaviour
 
     SpriteRenderer _renderer;
 
+    private void Start()
+    {
+        _renderer = GetComponent<SpriteRenderer>();
+    }
+
     public void Restart()
     {
         _renderer.color = Color.white;
@@ -17,5 +22,6 @@ public class Limit : MonoBehaviour
     private void OnTriggerExit2D(Collider2D other)
     {
         this._renderer.color = new Color(outColor.r, outColor.g, outColor.b);
+        Debug.Log("Out of limit...");
     }
 }

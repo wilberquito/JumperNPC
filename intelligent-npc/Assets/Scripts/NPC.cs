@@ -14,7 +14,7 @@ public class NPC : Agent
 
     [SerializeField] Limit rightLimit;
 
-    [SerializeField] GameObject currentTarget;
+    [SerializeField] Limit currentTarget;
 
     [SerializeField] float gain = 1f;
 
@@ -35,7 +35,7 @@ public class NPC : Agent
     bool attackMode = false;
 
 
-    private GameObject target
+    private Limit target
     {
         get => currentTarget;
         set
