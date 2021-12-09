@@ -123,6 +123,17 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!114 &381264117 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8871819349527435613, guid: 6d06e845dff7785419a198f876f4644b, type: 3}
+  m_PrefabInstance: {fileID: 8871819350112834652}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f67c7e722ba14acd9153bb4488bff6e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -319,6 +330,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8871819349527435613, guid: 6d06e845dff7785419a198f876f4644b, type: 3}
+      propertyPath: m_SphereCastRadius
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8871819349527435613, guid: 6d06e845dff7785419a198f876f4644b, type: 3}
+      propertyPath: m_ObservationStacks
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8871819351404967593, guid: 6d06e845dff7785419a198f876f4644b, type: 3}
+      propertyPath: m_BrainParameters.m_ActionSpec.BranchSizes.Array.data[0]
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8871819351404967599, guid: 6d06e845dff7785419a198f876f4644b, type: 3}
+      propertyPath: trainning
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8871819351404967599, guid: 6d06e845dff7785419a198f876f4644b, type: 3}
+      propertyPath: sensors.Array.data[1]
+      value: 
+      objectReference: {fileID: 381264117}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6d06e845dff7785419a198f876f4644b, type: 3}
 --- !u!1 &8871819350112834654 stripped
@@ -359,16 +390,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackColor: {r: 0.972549, g: 0.7529412, b: 0.24313726, a: 0}
---- !u!114 &8871819350112834673
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8871819350112834654}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 02ca99bded84df34bbc2d837e2751e7f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _render: {fileID: 0}

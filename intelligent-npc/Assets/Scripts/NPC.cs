@@ -105,7 +105,12 @@ public class NPC : Agent
         Vector2 v = rb.velocity;
 
         // try to learn not to jump when it is not in the ground
-        if (trainning && jump == 1 && !ShouldJump())
+        bool unneededJump = jump == 1 && !ShouldJump();
+        if (unneededJump)
+        {
+            Debug.Log("Unneded jump");
+        }
+        if (trainning && unneededJump)
         {
             AddReward(-gain);
             EndEpisode();
@@ -183,7 +188,7 @@ public class NPC : Agent
 
         bool limit = other.tag.Equals("LimitLeft") || other.tag.Equals("LimitRight");
 
-        if (limit && trainning)
+        if (trainning && limit && other.gameObject == target)
         {
             // it had touched one of the limits
             AddReward(gain);
@@ -257,28 +262,6 @@ public class NPC : Agent
         {
             PickOneLimitAsTarget();
             return;
-        }
-
-        foreach (var sensor in sensors)
-        {
-            var rays = sensor.RaySensor.RayPerceptionOutput.RayOutputs;
-            foreach (var ray in rays)
-            {
-                if (ray.HasHit)
-                {
-                    target = ray.HitGameObject.gameObject;
-                    return;
-                }
-            }
-        }
-
-        // when raycasting does not hit something
-        // and the current target is a hero
-        bool hero = this.target.layer == LayerMask.NameToLayer("Hero");
-        if (hero)
-        {
-            this.target = null;
-            PickOneLimitAsTarget();
         }
     }
 
