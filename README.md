@@ -8,6 +8,8 @@
 ```
 mlagents-learn <trainer-config-file> --env=<env_name> --run-id=<run-identifier>
 ```
-
 ### Design an Agent
 [Reference](https://github.com/Unity-Technologies/ml-agents/blob/main/docs/Learning-Environment-Design-Agents.md)
+
+### Trainning statistics
+[Reference](https://github.com/miyamotok0105/unity-ml-agents/blob/master/docs/Using-Tensorboard.md)
