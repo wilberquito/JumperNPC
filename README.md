@@ -13,3 +13,5 @@ mlagents-learn <trainer-config-file> --env=<env_name> --run-id=<run-identifier>
 
 ### Trainning statistics
 [Reference](https://github.com/miyamotok0105/unity-ml-agents/blob/master/docs/Using-Tensorboard.md)
+
+You maybe should install some [NVDIA driver](https://www.tensorflow.org/install/gpu)
