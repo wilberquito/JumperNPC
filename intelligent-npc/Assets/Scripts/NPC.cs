@@ -197,21 +197,22 @@ public class NPC : Agent
 
         bool limit = other.tag.Equals("LimitLeft") || other.tag.Equals("LimitRight");
 
-        if (trainning && limit && other.gameObject == target)
-        {
-            Debug.Log("Touched the CORRECT limit");
-            AddReward(2 * gain);
-            PickOneLimitAsTarget();
-            return;
-        }
 
-        if (trainning && limit && other.gameObject != target)
+        if (trainning && limit && other.gameObject != target.gameObject)
         {
             Debug.Log("Touched the UNCORRECT limit");
 
             AddReward(-gain / 2);
             EndEpisode();
         }
+
+        if (trainning && limit && other.gameObject == target.gameObject)
+        {
+            Debug.Log("Touched the CORRECT limit");
+            AddReward(2 * gain);
+            PickOneLimitAsTarget();
+        }
+
 
     }
 
