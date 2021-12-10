@@ -28,6 +28,8 @@ public class NPC : Agent
 
     [SerializeField] RayPerceptionSensorComponent2D[] sensors;
 
+    [SerializeField] float accumulated = 0f;
+
     AnimatorHandler animatorHandler;
 
     Rigidbody2D rb;
@@ -58,6 +60,7 @@ public class NPC : Agent
 
     public override void OnEpisodeBegin()
     {
+        Debug.Log("New episode...");
         // reseting movement inercy
         rb.velocity = Vector2.zero;
         //reseting positions
@@ -96,6 +99,15 @@ public class NPC : Agent
         animatorHandler.NormalMode();
     }
 
+    private Vector2 TargetDirectionNormalized()
+    {
+        Vector2 currentPos = new Vector2(transform.position.x, 0);
+        Vector2 targetPos = new Vector2(target.transform.position.x, 0);
+        Vector2 toTarget = targetPos - currentPos;
+
+        return toTarget.normalized;
+    }
+
     // called when action is received from either {player, neural network}
     // each buffer position refers to an action, I decide what it means for each positions
     // inside that structure has continuos and discrete actions
@@ -110,9 +122,25 @@ public class NPC : Agent
     public override void OnActionReceived(ActionBuffers actions)
     {
         int jump = actions.DiscreteActions[0];
-        float horizontal = actions.ContinuousActions[0];
+        float xhorientation = actions.ContinuousActions[0];
         Vector2 v = rb.velocity;
 
+        AddReward(-gain / 10000); // trying to finish the task quickly 
+
+        // checking if the new orientantion action is good
+        if (target)
+        {
+            Vector2 orientation = new Vector2(xhorientation, 0).normalized;
+            float simil = Vector2.Dot(orientation, TargetDirectionNormalized());
+
+            if (simil > Mathf.Epsilon)
+            {
+                Debug.Log("Well oriented");
+                Debug.Log(simil);
+                AddReward(gain / 100);
+            }
+
+        }
         // try to learn not to jump when it is not in the ground
         bool unneededJump = jump == 1 && !ShouldJump();
         if (unneededJump)
@@ -131,7 +159,7 @@ public class NPC : Agent
             StartCoroutine(AttackModeCoroutine());
         }
 
-        Vector2 movement = new Vector2(horizontal * movementPower, jump == 1 ? jump * jumpPower : v.y);
+        Vector2 movement = new Vector2(xhorientation * movementPower, jump == 1 ? jump * jumpPower : v.y);
         rb.velocity = movement;
     }
 
@@ -182,7 +210,7 @@ public class NPC : Agent
         // 2 observations for current target position
         sensor.AddObservation(targetPos);
         // 2 observations for movement velocity
-        sensor.AddObservation(rb.velocity);
+        sensor.AddObservation(rb.velocity.normalized);
         // Note: curiosamente si normalizo la velocidad, le cuesta mucho aprenderx
     }
 
@@ -198,19 +226,27 @@ public class NPC : Agent
         bool limit = other.tag.Equals("LimitLeft") || other.tag.Equals("LimitRight");
 
 
-        if (trainning && limit && other.gameObject != target.gameObject)
+        if (limit && other.gameObject != target.gameObject)
         {
             Debug.Log("Touched the UNCORRECT limit");
-
-            AddReward(-gain / 2);
+            if (trainning)
+            {
+                AddReward(-gain);
+            }
             EndEpisode();
+
+            return;
         }
 
-        if (trainning && limit && other.gameObject == target.gameObject)
+        if (limit && other.gameObject == target.gameObject)
         {
             Debug.Log("Touched the CORRECT limit");
-            AddReward(2 * gain);
             PickOneLimitAsTarget();
+
+            if (trainning)
+            {
+                AddReward(gain);
+            }
         }
 
 
@@ -220,21 +256,35 @@ public class NPC : Agent
     // if the collision is made with a hero layer
     private void OnCollisionEnter2D(Collision2D other)
     {
+        Debug.Log("collision2d");
+
         bool hero = other.gameObject.layer == LayerMask.NameToLayer("Hero");
 
-        if (trainning && hero && attackMode)
+        if (hero)
+        {
+            Debug.Log("collison2d with hero");
+        }
+
+        if (hero && attackMode)
         {
             Debug.Log("Collision with hero in attack mode:");
-            AddReward(gain * 5);
             Destroy(other.gameObject);
             target = null;
+            if (trainning)
+            {
+                AddReward(gain);
+            }
             return;
         }
 
-        if (trainning && hero && !attackMode)
+        if (hero && !attackMode)
         {
             Debug.Log("Collision with hero in normal mode:");
-            AddReward(-gain * 5);
+
+            if (trainning)
+            {
+                AddReward(-gain);
+            }
             EndEpisode();
             return;
         }
@@ -247,16 +297,19 @@ public class NPC : Agent
     {
         bool limit = other.tag.Equals("LimitLeft") || other.tag.Equals("LimitRight");
 
-        if (trainning && limit)
+        if (limit)
         {
             Vector2 currentPos = new Vector2(transform.position.x, 0);
             Vector2 targetPos = new Vector2(target.transform.position.x, 0);
             Vector2 toTarget = targetPos - currentPos;
-            var horientation = Vector2.Dot(toTarget.normalized, rb.velocity.normalized);
+            var orientation = Vector2.Dot(toTarget.normalized, rb.velocity.normalized);
 
-            if (horientation <= 0)
+            if (orientation <= 0)
             {
-                AddReward(-gain * 4);
+                if (trainning)
+                {
+                    AddReward(-gain / 5);
+                }
                 EndEpisode();
             }
         }
@@ -282,6 +335,8 @@ public class NPC : Agent
             PickOneLimitAsTarget();
             return;
         }
+
+        accumulated = GetCumulativeReward();
     }
 
     // There should be two bars
@@ -300,7 +355,7 @@ public class NPC : Agent
             Debug.Log("Picking target");
             Debug.Log("Current:");
             Debug.Log(target);
-            this.target = this.leftLimit == this.target ? this.rightLimit : this.leftLimit;
+            this.target = this.leftLimit.gameObject == this.target.gameObject ? this.rightLimit : this.leftLimit;
             Debug.Log("Selected");
             Debug.Log(target);
         }

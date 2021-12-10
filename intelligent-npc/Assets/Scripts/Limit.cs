@@ -22,6 +22,6 @@ public class Limit : MonoBehaviour
     private void OnTriggerExit2D(Collider2D other)
     {
         this._renderer.color = new Color(outColor.r, outColor.g, outColor.b);
-        Debug.Log("Out of limit...");
+        Debug.Log("Leaving...");
     }
 }
