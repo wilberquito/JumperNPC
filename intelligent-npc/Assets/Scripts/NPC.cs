@@ -68,10 +68,8 @@ public class NPC : Agent
         target = null;
         // setting attack mode to false`
         attackMode = false;
-
         // finding the moving target
         PickOneLimitAsTarget();
-
         // restart limits
         RestartLimits();
     }
