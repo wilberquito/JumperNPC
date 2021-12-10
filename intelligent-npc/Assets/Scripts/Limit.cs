@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Limit : MonoBehaviour
 {
-    [SerializeField] Color outColor;
+    [SerializeField] Color inColor;
 
     SpriteRenderer _renderer;
 
@@ -18,10 +18,14 @@ public class Limit : MonoBehaviour
         _renderer.color = Color.white;
     }
 
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        this._renderer.color = new Color(inColor.r, inColor.g, inColor.b);
+    }
+
     // is one of the limits and the agent is outside of them
     private void OnTriggerExit2D(Collider2D other)
     {
-        this._renderer.color = new Color(outColor.r, outColor.g, outColor.b);
-        Debug.Log("Leaving...");
+        Restart();
     }
 }

@@ -181,9 +181,9 @@ BoxCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
-    border: {x: 0.049999997, y: 0.049999997, z: 0.049999997, w: 0.049999997}
+    border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.16, y: 0.16}
+    oldSize: {x: 0.2, y: 0.2}
     newSize: {x: 0.16, y: 0.16}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -233,7 +233,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
   m_Color: {r: 0.37254903, g: 0.7372549, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -256,7 +256,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0efbaae523182f0488e1830fbb096dc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  outColor: {r: 0.94509804, g: 0.27058825, b: 0.27058825, a: 0}
+  inColor: {r: 1, g: 0.654902, b: 0.2784314, a: 0}
 --- !u!1 &8871819349451225129
 GameObject:
   m_ObjectHideFlags: 0
@@ -306,9 +306,9 @@ BoxCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
-    border: {x: 0.049999997, y: 0.049999997, z: 0.049999997, w: 0.049999997}
+    border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.16, y: 0.16}
+    oldSize: {x: 0.2, y: 0.2}
     newSize: {x: 0.16, y: 0.16}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -358,7 +358,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
   m_Color: {r: 0.3726415, g: 0.737849, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -381,7 +381,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0efbaae523182f0488e1830fbb096dc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  outColor: {r: 0.9433962, g: 0.27144888, b: 0.27144888, a: 0}
+  inColor: {r: 1, g: 0.6553548, b: 0.2783019, a: 0}
 --- !u!1 &8871819349504233921
 GameObject:
   m_ObjectHideFlags: 0
