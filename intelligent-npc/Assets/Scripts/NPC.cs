@@ -199,14 +199,17 @@ public class NPC : Agent
 
         if (trainning && limit && other.gameObject == target)
         {
-            // it had touched one of the limits
-            AddReward(gain);
+            Debug.Log("Touched the CORRECT limit");
+            AddReward(2 * gain);
             PickOneLimitAsTarget();
+            return;
         }
 
         if (trainning && limit && other.gameObject != target)
         {
-            AddReward(-gain);
+            Debug.Log("Touched the UNCORRECT limit");
+
+            AddReward(-gain / 2);
             EndEpisode();
         }
 
@@ -293,7 +296,12 @@ public class NPC : Agent
         }
         else
         {
+            Debug.Log("Picking target");
+            Debug.Log("Current:");
+            Debug.Log(target);
             this.target = this.leftLimit == this.target ? this.rightLimit : this.leftLimit;
+            Debug.Log("Selected");
+            Debug.Log(target);
         }
     }
 }
