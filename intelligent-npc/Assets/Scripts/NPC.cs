@@ -116,7 +116,12 @@ public class NPC : Agent
     // when npc jumps has the hability to make damage and only should jump when there is a enemy nearby
     // and it is in the ground.
 
-    // in case it is not in the ground I penalize the agent
+    // in case it is not in the ground and there is no enemy nearby I penalize the agent
+
+    // as I want to make the agent move to target as quick as possible, each time
+    // on action received is executed I penalize him
+
+    // in case the action given to move target is well oriented I give him a little reward
     public override void OnActionReceived(ActionBuffers actions)
     {
         int jump = actions.DiscreteActions[0];
