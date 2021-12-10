@@ -32,6 +32,8 @@ public class NPC : Agent
 
     AnimatorHandler animatorHandler;
 
+    HeroGenerator heroGenerator;
+
     Rigidbody2D rb;
 
     bool attackMode = false;
@@ -49,6 +51,7 @@ public class NPC : Agent
     private void Start()
     {
         animatorHandler = GetComponent<AnimatorHandler>();
+        heroGenerator = FindObjectOfType<HeroGenerator>();
     }
 
     public override void Initialize()
@@ -68,9 +71,14 @@ public class NPC : Agent
         // changin randomnes
         Random.InitState(System.DateTime.Now.Millisecond);
         // current target rebooted
-        target = null;
         // setting attack mode to false`
+        // removes enemis from scene
+        if (heroGenerator)
+        {
+            heroGenerator.Clean();
+        }
         attackMode = false;
+        target = null;
         // finding the moving target
         PickOneLimitAsTarget();
         // restart limits
@@ -138,32 +146,39 @@ public class NPC : Agent
 
             if (simil > Mathf.Epsilon)
             {
-                Debug.Log("Well oriented");
-                Debug.Log(simil);
                 AddReward(gain / 100);
             }
 
         }
+
+        bool shouldJump = ShouldJump(); // SHOULD JUMP WHEN NOT IN MODE ATTACK TOO
+
         // try to learn not to jump when it is not in the ground
-        bool unneededJump = jump == 1 && !ShouldJump();
-        if (unneededJump)
-        {
-            Debug.Log("Unneded jump");
-        }
+        bool unneededJump = jump == 1 && !shouldJump;
+
+        bool goodJump = jump == 1 && shouldJump;
+
         if (trainning && unneededJump)
         {
-            AddReward(-gain);
-            EndEpisode();
+            Debug.Log("Unneded jump...");
+            AddReward(-gain / 100);
+            // EndEpisode(); // CLAVE!!!
         }
 
+        if (trainning && goodJump) // CLAVE
+        {
+            Debug.Log("Good jump...");
+            AddReward(gain / 10);
+        }
+
+
+        Vector2 movement = new Vector2(xhorientation * movementPower, jump == 1 && shouldJump ? jump * jumpPower : v.y); // CLAVE
+        rb.velocity = movement;
         // run attack mode
         if (jump == 1 && !attackMode)
         {
             StartCoroutine(AttackModeCoroutine());
         }
-
-        Vector2 movement = new Vector2(xhorientation * movementPower, jump == 1 ? jump * jumpPower : v.y);
-        rb.velocity = movement;
     }
 
     // The Agent should only jump when is grounded or one of its ray touches a hero
@@ -180,7 +195,6 @@ public class NPC : Agent
                 if (ray.HasHit) return true;
             }
         }
-
         return false;
     }
 
@@ -259,8 +273,6 @@ public class NPC : Agent
     // if the collision is made with a hero layer
     private void OnCollisionEnter2D(Collision2D other)
     {
-        Debug.Log("collision2d");
-
         bool hero = other.gameObject.layer == LayerMask.NameToLayer("Hero");
 
         if (hero)
@@ -289,7 +301,6 @@ public class NPC : Agent
                 AddReward(-gain);
             }
             EndEpisode();
-            return;
         }
 
     }

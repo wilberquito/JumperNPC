@@ -13,17 +13,16 @@ public class HeroGenerator : MonoBehaviour
 
     [SerializeField] float xRange = 35f;
 
+    [SerializeField] Platform platform;
+
     Hero instance;
 
-    Platform platform;
 
 
     // Start is called before the first frame update
     void Start()
     {
         Random.InitState(System.DateTime.Now.Millisecond);
-        platform = FindObjectOfType<Platform>();
-
         StartCoroutine(GenerateCoroutine());
     }
 
@@ -52,6 +51,15 @@ public class HeroGenerator : MonoBehaviour
         float yfar = Random.Range(0.8f, 1f);
 
         return new Vector3(lrSide * xRange * xfar, platformPos.y + 5f * yfar, 0);
+    }
+
+    public void Clean()
+    {
+        var heros = FindObjectsOfType<Hero>();
+        foreach (var hero in heros)
+        {
+            Destroy(hero.gameObject);
+        }
     }
 
 }

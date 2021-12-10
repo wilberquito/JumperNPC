@@ -123,6 +123,17 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!114 &105713596 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 205118919, guid: 6d06e845dff7785419a198f876f4644b, type: 3}
+  m_PrefabInstance: {fileID: 8871819350112834652}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2643337e787398c488a22ed6b8785693, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -214,6 +225,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 578064734, guid: 6d06e845dff7785419a198f876f4644b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 578064735, guid: 6d06e845dff7785419a198f876f4644b, type: 3}
+      propertyPath: platform
+      value: 
+      objectReference: {fileID: 105713596}
+    - target: {fileID: 1995554500, guid: 6d06e845dff7785419a198f876f4644b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.002
+      objectReference: {fileID: 0}
     - target: {fileID: 8871819349504233921, guid: 6d06e845dff7785419a198f876f4644b, type: 3}
       propertyPath: m_Name
       value: Area
@@ -265,6 +288,18 @@ PrefabInstance:
     - target: {fileID: 8871819351404967593, guid: 6d06e845dff7785419a198f876f4644b, type: 3}
       propertyPath: m_Model
       value: 
-      objectReference: {fileID: 5022602860645237092, guid: 6953145f20e206e4794652b87ef7d69d, type: 3}
+      objectReference: {fileID: 5022602860645237092, guid: f7a583704ee281d449edb483a0b91c55, type: 3}
+    - target: {fileID: 8871819351404967595, guid: 6d06e845dff7785419a198f876f4644b, type: 3}
+      propertyPath: DecisionPeriod
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8871819351404967599, guid: 6d06e845dff7785419a198f876f4644b, type: 3}
+      propertyPath: trainning
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8871819351404967602, guid: 6d06e845dff7785419a198f876f4644b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.224
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6d06e845dff7785419a198f876f4644b, type: 3}
