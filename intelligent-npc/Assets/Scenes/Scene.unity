@@ -268,7 +268,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   turnOn: 1
-  spawnTime: 40
+  spawnTime: 25
   hero: {fileID: 793720481, guid: f3fbab7af5776ee4dba7720bb592987b, type: 3}
   xRange: 30
   platform: {fileID: 105713596}
@@ -285,7 +285,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 578064735, guid: 6d06e845dff7785419a198f876f4644b, type: 3}
       propertyPath: spawnTime
-      value: 40
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 8871819349504233921, guid: 6d06e845dff7785419a198f876f4644b, type: 3}
       propertyPath: m_Name
