@@ -139,7 +139,7 @@ public class NPC : Agent
         AddReward(-gain / 10000); // trying to finish the task quickly 
 
         // checking if the new orientantion action is good
-        if (target)
+        if (target && trainning)
         {
             Vector2 orientation = new Vector2(xhorientation, 0).normalized;
             float simil = Vector2.Dot(orientation, TargetDirectionNormalized());
@@ -151,7 +151,7 @@ public class NPC : Agent
 
         }
 
-        bool shouldJump = ShouldJump(); // SHOULD JUMP WHEN NOT IN MODE ATTACK TOO
+        bool shouldJump = ShouldJump() && !attackMode; // SHOULD JUMP WHEN NOT IN MODE ATTACK TOO
 
         // try to learn not to jump when it is not in the ground
         bool unneededJump = jump == 1 && !shouldJump;
@@ -171,11 +171,10 @@ public class NPC : Agent
             AddReward(gain / 10);
         }
 
-
         Vector2 movement = new Vector2(xhorientation * movementPower, jump == 1 && shouldJump ? jump * jumpPower : v.y); // CLAVE
         rb.velocity = movement;
         // run attack mode
-        if (jump == 1 && !attackMode)
+        if (jump == 1 && shouldJump)
         {
             StartCoroutine(AttackModeCoroutine());
         }
@@ -228,7 +227,8 @@ public class NPC : Agent
         sensor.AddObservation(targetPos);
         // 2 observations for movement velocity
         sensor.AddObservation(rb.velocity.normalized);
-        // Note: curiosamente si normalizo la velocidad, le cuesta mucho aprenderx
+        // 1 observacion para mirar el modo ataque
+        sensor.AddObservation(attackMode);
     }
 
 
@@ -274,11 +274,6 @@ public class NPC : Agent
     private void OnCollisionEnter2D(Collision2D other)
     {
         bool hero = other.gameObject.layer == LayerMask.NameToLayer("Hero");
-
-        if (hero)
-        {
-            Debug.Log("collison2d with hero");
-        }
 
         if (hero && attackMode)
         {
