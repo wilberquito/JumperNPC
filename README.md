@@ -1,5 +1,5 @@
 
-# :anger: `Jumper NPC prototype`
+# :anger: Jumper NPC prototype
 
 This project and its different versions has made use of mlagent-learn to make the npc to learn some policies.
 
@@ -7,7 +7,7 @@ The project is due to a subject (TAIA) of the degree that asked us to present a 
 
 If are interested in the explanation, the documentation of this project is in docs branch, search for TAIA_REPORT.pdf, it is in Catalan.
 
-## :books: `Some extra util documentation`
+## :books: Some extra util documentation
 
 - [Use virtual environment](https://github.com/Unity-Technologies/ml-agents/blob/main/docs/Using-Virtual-Environment.md)
 - [Use mlagents-learn](https://github.com/Unity-Technologies/ml-agents/blob/main/docs/Training-ML-Agents.md)
