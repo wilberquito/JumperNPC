@@ -5,7 +5,7 @@ This project and its different versions has made use of mlagent-learn to make th
 
 The project is due to a subject (TAIA) of the degree that asked us to present a work related to artificial intelligence and I took advantage of it to learn more about Unity and have more knowledge to enrich the final degree project which will be a video game.
 
-If are interested in the explanation, the documentation of this project is in docs branch, search for TAIA_REPORT.pdf, it is in Catalan.
+If you are interested in the explanation, the documentation of this project is in docs branch, search for TAIA_REPORT.pdf, it is in Catalan.
 
 ## :books: Some extra util documentation
 
