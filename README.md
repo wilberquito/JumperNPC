@@ -1,7 +1,7 @@
 
 # :anger: Jumper NPC prototype
 
-This project and its different versions has made use of mlagent-learn to make the npc to learn some policies.
+This project and its different versions has made use of [mlagent-learn](https://github.com/Unity-Technologies/ml-agents) to make the npc to learn some policies.
 
 The project is due to a subject (TAIA) of the degree that asked us to present a work related to artificial intelligence and I took advantage of it to learn more about Unity and have more knowledge to enrich the final degree project which will be a video game.
 
