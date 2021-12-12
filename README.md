@@ -7,7 +7,7 @@ The project is due to a subject (TAIA) of the degree that asked us to present a 
 
 If are interested in the explanation, the documentation of this project is in docs branch, search for TAIA_REPORT.pdf, it is in Catalan.
 
-## Some extra util documentation
+## :books: `Some extra util documentation`
 
 - [Use virtual environment](https://github.com/Unity-Technologies/ml-agents/blob/main/docs/Using-Virtual-Environment.md)
 - [Use mlagents-learn](https://github.com/Unity-Technologies/ml-agents/blob/main/docs/Training-ML-Agents.md)
