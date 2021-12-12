@@ -1,17 +1,17 @@
-### Use virtual environment
-[Reference](https://github.com/Unity-Technologies/ml-agents/blob/main/docs/Using-Virtual-Environment.md)
 
-### Use mlagents-learn
-[Reference](https://github.com/Unity-Technologies/ml-agents/blob/main/docs/Training-ML-Agents.md)
+# :anger: `Jumper NPC prototype`
 
-#### Basic command for trainning
-```
-mlagents-learn <trainer-config-file> --env=<env_name> --run-id=<run-identifier>
-```
-### Design an Agent
-[Reference](https://github.com/Unity-Technologies/ml-agents/blob/main/docs/Learning-Environment-Design-Agents.md)
+This project and its different versions has made use of mlagent-learn to make the npc to learn some policies.
 
-### Trainning statistics
-[Reference](https://github.com/miyamotok0105/unity-ml-agents/blob/master/docs/Using-Tensorboard.md)
+The project is due to a subject (TAIA) of the degree that asked us to present a work related to artificial intelligence and I took advantage of it to learn more about Unity and have more knowledge to enrich the final degree project which will be a video game.
 
-You maybe should install some [NVDIA driver](https://www.tensorflow.org/install/gpu)
+If are interested in the explanation, the documentation of this project is in docs branch, search for TAIA_REPORT.pdf, it is in Catalan.
+
+## Some extra util documentation
+
+- [Use virtual environment](https://github.com/Unity-Technologies/ml-agents/blob/main/docs/Using-Virtual-Environment.md)
+- [Use mlagents-learn](https://github.com/Unity-Technologies/ml-agents/blob/main/docs/Training-ML-Agents.md)
+- [Design an Agent](https://github.com/Unity-Technologies/ml-agents/blob/main/docs/Learning-Environment-Design-Agents.md)
+- [See trainning statistics](https://github.com/miyamotok0105/unity-ml-agents/blob/master/docs/Using-Tensorboard.md)
+- You maybe should install some [NVDIA driver](https://www.tensorflow.org/install/gpu)
+- [Understanding PPO Plots in TensorBoard](https://medium.com/aureliantactics/understanding-ppo-plots-in-tensorboard-cbc3199b9ba2)
