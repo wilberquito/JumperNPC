@@ -723,7 +723,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8871819351404967599, guid: 6d06e845dff7785419a198f876f4644b, type: 3}
       propertyPath: movementForce
-      value: 1.5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8871819351404967599, guid: 6d06e845dff7785419a198f876f4644b, type: 3}
       propertyPath: trainningMode
