@@ -1,9 +1,9 @@
 
 # INTRO
 
-Bona tarda tothom, el meu projecte consisteixe en la creació d'un NPC fent ús de Deep Reinforcement Learning. El Deep Reinforcement Learning
+Bona tarda tothom, el meu projecte consisteix en la creació d'un NPC fent ús de Deep Reinforcement Learning. El Deep Reinforcement Learning
 es una mescla entre Deep Learning i Reinforcement learning, possant-la corta, sense tant tecnisisme, l'objectiu es que un Agent aprengui una
-politica a base d'ensajo i error.
+politica a base d'ensaig i error.
 
 Les politiques que l'agent avia d'aprendre van ser dos, saber moures ciclicament d'esquerra a dreta entre uns limits i saber passar a mode atac
 quan veies un enemic en la seva area d'actuació.
@@ -23,21 +23,22 @@ Nem a parlar una mica sobre les diferents tecnologies.
 Unity: com suposo que tots sabeu, es un motor gràfic, que te la seva API propia, llançament d'events, creacio d'objectes, tractament de collision entre un munt d'altres coses. Unity treballa amb
 els llenguatges de programacio, C++ i C#. El meu projecte corre en C#.
 
-ml-agents: paquet que s'ha d'instal·lar per tenir acces una API que et permet implementar logica als Agents.
+ml-agents: paquet que s'ha d'instal·lar per tenir acces una API que et permet implementar logica als Agents entre d'altres funcionalitats.
 
-mlagents-learn: es un proces Python que te els algoritmes de aprenentatge automatic, Unity mitjançant el paquet de ml-agent es connecta a aquest procés Python. Si us fixeu, en l'esquema aquest, hi ha aixo que diu configuation.yaml, es un fitxer que et permet configurar un seguit de parametres d'aprenentatge que utilitza els algoritmes de mlagents-learn (les versions que veure totes han estat entrenades amb el fitxer de configuració per defecte excepte l'ultima, que vaig modificar uns quans parametres per forçar que l'aprenentage sigui més rápid).
+mlagents-learn: es un proces Python que te els algoritmes de aprenentatge automatic, Unity mitjançant el paquet de ml-agent es connecta a aquest procés Python mitjançasnt un broker, es el la part blava aquella.
+Si us fixeu, en l'esquema aquest, hi ha aixo que diu configuation.yaml (Yet another marker language), es un fitxer que et permet configurar un seguit de parametres d'aprenentatge que utilitza els algoritmes de mlagents-learn (les versions que veureu totes han estat entrenades amb el fitxer de configuració per defecte excepte l'ultima, que vaig modificar uns quans parametres per intentar forçar que l'aprenentage sigui més rápid).
 
-tensorboard: tecnologia de tensorflow, que bueno, et permet obrir un port local per veure estadistiques en temps real o no del proces d'aprenentatge.
+tensorboard: tecnologia de tensorflow, que bueno, et permet obrir un port local per veure estadistiques en temps real o no, del proces d'aprenentatge.
 
 # D2
 
 Nem a parla sobre les diferents fases del projecte, obviament primerament vaig haver d'escollir les poliques que havia de modelitzar que són aquelles dues que he explicat abans (moviments ciclics i mode attack/defensa) més endavanet entendreu perque dic mode attack/defensa.
 
-El projecte de 4 versions diferents i cada versió a tingut que passar per la seva fase de modelitzacio, d'entrenament, de treure estadistiques i finalment fer testings amb les xarxes neuronals resultants en l'entorn grafic. Per cert, la xarxa neuronal no es mes que un fitxer amb extensió .onnx que son les sigles d'Open Neural Network Exchange. Es un estandar que et permet reutilitzar machine learning models en differents frameworks.
+El projecte té 4 versions diferents i cada versió a tingut que passar per la seva fase de modelització, d'entrenament, de treure estadistiques i finalment fer testings amb les xarxes neuronals resultants en l'entorn grafic. Per cert, la xarxa neuronal no es mes que un fitxer amb extensió .onnx que son les sigles d'Open Neural Network Exchange. Es un estandar que et permet reutilitzar models de machine learning en differents frameworks.
 
 Abans de continuar amb la part d'experiments i conclusió final, nem a parlar d'on m'he inspirat o d'on he tret informació, bueno, básicament 90% del coneixement d'aquesta pràctica ha estat gracies a la bona documentació del projecte ml-agents en Github, algunes pàgines randoms d'internet i videos de Youtube.
 
-Us he donat una mica la xapa amb Agent i que els Agents aprenent, però no he definit que es un Agent, un Agent es un ente, una bola, pilota, no te ni perque tenir forma, però ha de ser capaç de fer les seguents 3 coses:
+Us he donat una mica la xapa amb Agent i que els Agents aprenent, però no he definit que es un Agent, un Agent es un ente, una bola, cuadrat, no te ni perque tenir forma, però ha de ser capaç de fer les seguents 3 coses:
 
 - obtenir informació del medi
 - poder fer accions
